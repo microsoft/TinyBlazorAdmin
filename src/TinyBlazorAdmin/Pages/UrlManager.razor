@@ -1,0 +1,50 @@
+@page "/urlmanager"
+@using tinyBlazorAdmin.Data
+@inject UrlShortenerService UrlService
+
+
+@if (UrlList == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Vanity</th>
+                <th>Title</th>
+                <th>Url</th>
+                <th>Clicks</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var url in UrlList.UrlList)
+            {
+                <tr>
+                    <td><a href="@url.ShortUrl" target="blank">@url.RowKey</a></td>
+                    <td>
+                        <span>@url.Title</span>
+                    </td>
+                    <td>
+                        <span title="@url.Url">@url.GetDisplayableUrl()</span>
+                    </td>
+                    <td>@url.Clicks</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code
+{
+    ShortUrlList UrlList;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        UrlList = await UrlService.GetUrlList();
+    }
+
+
+
+}
