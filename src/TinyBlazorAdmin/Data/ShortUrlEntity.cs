@@ -30,8 +30,8 @@ namespace  tinyBlazorAdmin.Data
 
         public string GetDisplayableUrl(){
 
-            var lenght = Url.ToString().Length;
-            if (lenght >= 50){
+            var length = Url.ToString().Length;
+            if (length >= 50){
                 return string.Concat(Url.Substring(1,50), "...");
             }
             return Url;
