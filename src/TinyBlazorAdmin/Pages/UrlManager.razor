@@ -1,6 +1,10 @@
 @page "/urlmanager"
 @using tinyBlazorAdmin.Data
-@inject UrlShortenerService UrlService
+@using Microsoft.AspNetCore.Authorization
+@using Data
+@attribute [Authorize]
+
+@inject AzFuncClient azClient
 
 
 @if (UrlList == null)
@@ -42,7 +46,7 @@ else
 
     protected override async Task OnParametersSetAsync()
     {
-        UrlList = await UrlService.GetUrlList();
+        //UrlList = await azClient.GetUrlList();
     }
 
 
