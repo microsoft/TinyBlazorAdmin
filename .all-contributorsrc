@@ -15,6 +15,15 @@
         "code",
         "ideas"
       ]
+    },
+    {
+      "login": "jbrule",
+      "name": "jbrule",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/765798?v=4",
+      "profile": "http://www.mayoclinic.org",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
