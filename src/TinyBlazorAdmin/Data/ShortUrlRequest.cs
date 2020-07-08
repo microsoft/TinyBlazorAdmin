@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
-namespace tinyBlazorAdmin.Data
+namespace TinyBlazorAdmin.Data
 {
     public class ShortUrlRequest
     {

@@ -23,8 +23,8 @@ namespace TinyBlazorAdmin.Data
         }
 
 
-        public async Task<string> WhatsNew(string name){
-            var result = await _urlSecuredService.GetWhatsNew(name);
+        public async Task<ShortUrlList> GetUrlList(){
+            var result = await _urlSecuredService.GetUrlList();
             return result;
         }
 

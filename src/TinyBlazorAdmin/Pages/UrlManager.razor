@@ -1,7 +1,6 @@
 @page "/urlmanager"
-@using tinyBlazorAdmin.Data
+@using TinyBlazorAdmin.Data
 @using Microsoft.AspNetCore.Authorization
-@using Data
 @attribute [Authorize]
 
 @inject AzFuncClient azClient
@@ -46,9 +45,7 @@ else
 
     protected override async Task OnParametersSetAsync()
     {
-        //UrlList = await azClient.GetUrlList();
+        UrlList = await azClient.GetUrlList();
     }
-
-
 
 }

@@ -1,6 +1,6 @@
 using System.Linq;
 
-namespace  tinyBlazorAdmin.Data
+namespace  TinyBlazorAdmin.Data
 {
     public class ShortUrlEntity
     {

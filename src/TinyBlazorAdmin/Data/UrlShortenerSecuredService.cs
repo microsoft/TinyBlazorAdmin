@@ -1,8 +1,10 @@
 using System;
 using System.Net.Http;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
-
+using Newtonsoft.Json;
+using TinyBlazorAdmin.Data;
 
 namespace TinyBlazorAdmin.Data
 {
@@ -26,28 +28,52 @@ namespace TinyBlazorAdmin.Data
             _client = factory.CreateClient(nameof(UrlShortenerSecuredService));
         }
 
-        /// <summary>
-        /// Gets a new <see cref="AzToken"/> based on the authenticated user.
-        /// </summary>
-        /// <returns>A new <see cref="AzToken"/> instance.</returns>
-        public async Task<string> GetWhatsNew(string name)
+
+        public async Task<ShortUrlList> GetUrlList()
         {
             string result = string.Empty;
 
-            try{
-                var obj = "{'name':'"+ name + "'}";
+            // try{
+                //var obj = "{'name':'"+ name + "'}";
 
-                var content = new StringContent(obj, Encoding.UTF8, "application/json");
-                var response = await _client.PostAsync($"api/WhatsNew", content); 
+                //var content = new StringContent(obj, Encoding.UTF8, "application/json");
+                //var response = await _client.SendAsync($"api/UrlList?code=6su5tN2rzQn0dW6yq/YVDKpCnD3zN0khgshEOm7qhwfSg1MRNNxG3Q=="); 
                 
-                result = await response.Content.ReadAsStringAsync();
+                //result = await response.Content.ReadAsStringAsync();
                 //result = JsonConvert.DeserializeObject<string>(resultList);
-            }
-            catch(Exception ex ){
-                result = ex.Message;
-            }
 
-            return result;
+                CancellationToken cancellationToken;
+
+                using (var request = new HttpRequestMessage(HttpMethod.Get, $"api/UrlList?code=6su5tN2rzQn0dW6yq/YVDKpCnD3zN0khgshEOm7qhwfSg1MRNNxG3Q=="))
+                {
+                    using (var response = await _client
+                        .SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken)
+                        .ConfigureAwait(false))
+                    {
+                        var resultList = response.Content.ReadAsStringAsync().Result;
+                        return JsonConvert.DeserializeObject<ShortUrlList>(resultList);
+                    }
+                }
+            // }
+            // catch(Exception ex ){
+            //     result = ex.Message;
+            // }
         }
     }
 }
+
+
+
+        //     CancellationToken cancellationToken;
+
+        //     using (var client = new HttpClient())
+        //     using (var request = new HttpRequestMessage(HttpMethod.Get, url))
+        //     {
+        //         using (var response = await client
+        //             .SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken)
+        //             .ConfigureAwait(false))
+        //         {
+        //             var resultList = response.Content.ReadAsStringAsync().Result;
+        //             return JsonConvert.DeserializeObject<ShortUrlList>(resultList);
+        //         }
+        //     }
