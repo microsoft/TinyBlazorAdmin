@@ -28,5 +28,20 @@ namespace TinyBlazorAdmin.Data
             return result;
         }
 
+        public async Task<ShortUrlList> CreateShortUrl(ShortUrlRequest shortUrlRequest){
+            var result = await _urlSecuredService.CreateShortUrl(shortUrlRequest);
+            return result;
+        }
+
+        public async Task<ShortUrlEntity> UpdateShortUrl(ShortUrlEntity editedUrl){
+            var result = await _urlSecuredService.UpdateShortUrl(editedUrl);
+            return result;
+        }
+
+        public async Task<ShortUrlEntity> ArchiveShortUrl(ShortUrlEntity archivedUrl){
+            var result = await _urlSecuredService.ArchiveShortUrl(archivedUrl);
+            return result;
+        }
+
     }
 }

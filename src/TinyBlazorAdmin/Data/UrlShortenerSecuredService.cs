@@ -3,6 +3,9 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Components;
+using System.Text;
+using System.Net.Http.Json;
 
 namespace TinyBlazorAdmin.Data
 {
@@ -17,6 +20,21 @@ namespace TinyBlazorAdmin.Data
         /// </summary>
         private readonly HttpClient _client;
 
+
+
+        private static StringContent CreateHttpContent(object content)
+        {
+            StringContent httpContent = null;
+
+            if (content != null)
+            {
+                var jsonString = JsonConvert.SerializeObject(content);
+                httpContent = new StringContent(jsonString, Encoding.UTF8, "application/json");
+            }
+
+            return httpContent;
+        }
+
         /// <summary>
         /// Creates a new instance of the <see cref="UrlShortenerSecuredService"/> class.
         /// </summary>
@@ -30,48 +48,47 @@ namespace TinyBlazorAdmin.Data
         public async Task<ShortUrlList> GetUrlList()
         {
             string result = string.Empty;
+            var resultList = await _client.GetJsonAsync<ShortUrlList>($"/api/UrlList?code=qzmB9P2p1ujT/98a16WlR1XvMlsBBJlKKcv5lZsH0cpR4f/RGqAnXQ==");
+            return resultList;
+        }
 
-            // try{
-                //var obj = "{'name':'"+ name + "'}";
+        public async Task<ShortUrlList> CreateShortUrl(ShortUrlRequest shortUrlRequest)
+        {
+            CancellationToken cancellationToken;
 
-                //var content = new StringContent(obj, Encoding.UTF8, "application/json");
-                //var response = await _client.SendAsync($"api/UrlList?code=6su5tN2rzQn0dW6yq/YVDKpCnD3zN0khgshEOm7qhwfSg1MRNNxG3Q=="); 
-                
-                //result = await response.Content.ReadAsStringAsync();
-                //result = JsonConvert.DeserializeObject<string>(resultList);
+            var response = await _client.PostAsJsonAsync($"/api/UrlShortener?code=qzmB9P2p1ujT/98a16WlR1XvMlsBBJlKKcv5lZsH0cpR4f/RGqAnXQ==", shortUrlRequest, cancellationToken);
+            
+            var resultList = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<ShortUrlList>(resultList);
+        }
 
-                CancellationToken cancellationToken;
 
-                using (var request = new HttpRequestMessage(HttpMethod.Get, $"api/UrlList?code=6su5tN2rzQn0dW6yq/YVDKpCnD3zN0khgshEOm7qhwfSg1MRNNxG3Q=="))
-                {
-                    using (var response = await _client
-                        .SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken)
-                        .ConfigureAwait(false))
-                    {
-                        var resultList = response.Content.ReadAsStringAsync().Result;
-                        return JsonConvert.DeserializeObject<ShortUrlList>(resultList);
-                    }
-                }
-            // }
-            // catch(Exception ex ){
-            //     result = ex.Message;
-            // }
+        public async Task<ShortUrlEntity> UpdateShortUrl(ShortUrlEntity editedUrl)
+        {
+            CancellationToken cancellationToken;
+
+            var response = await _client.PostAsJsonAsync($"/api/UrlUpdate?code=DClqzYbsW3cZFbbLIkINEdZI2kp6js3fqILw6Ei8CwLlmgISSih6Ug==", editedUrl, cancellationToken);
+            
+            var resultList = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<ShortUrlEntity>(resultList);
+        }
+
+
+
+
+        public async Task<ShortUrlEntity> ArchiveShortUrl(ShortUrlEntity archivedUrl) 
+        {
+            CancellationToken cancellationToken;
+
+            var response = await _client.PostAsJsonAsync($"/api/UrlArchive?code=8m22e/aFQv5Qa3ovxBc7f2m9eqRVPnLp1bpPJhHv1Z5HNzgUJ/fhPg==", archivedUrl, cancellationToken);
+            
+            var resultList = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<ShortUrlEntity>(resultList);
+
         }
     }
+
+
+
+
 }
-
-
-
-        //     CancellationToken cancellationToken;
-
-        //     using (var client = new HttpClient())
-        //     using (var request = new HttpRequestMessage(HttpMethod.Get, url))
-        //     {
-        //         using (var response = await client
-        //             .SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken)
-        //             .ConfigureAwait(false))
-        //         {
-        //             var resultList = response.Content.ReadAsStringAsync().Result;
-        //             return JsonConvert.DeserializeObject<ShortUrlList>(resultList);
-        //         }
-        //     }
