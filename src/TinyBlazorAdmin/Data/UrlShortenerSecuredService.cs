@@ -48,7 +48,7 @@ namespace TinyBlazorAdmin.Data
         public async Task<ShortUrlList> GetUrlList()
         {
             string result = string.Empty;
-            var resultList = await _client.GetJsonAsync<ShortUrlList>($"/api/UrlList?code=qzmB9P2p1ujT/98a16WlR1XvMlsBBJlKKcv5lZsH0cpR4f/RGqAnXQ==");
+            var resultList = await _client.GetJsonAsync<ShortUrlList>($"/api/UrlList");
             return resultList;
         }
 
@@ -56,8 +56,8 @@ namespace TinyBlazorAdmin.Data
         {
             CancellationToken cancellationToken;
 
-            var response = await _client.PostAsJsonAsync($"/api/UrlShortener?code=qzmB9P2p1ujT/98a16WlR1XvMlsBBJlKKcv5lZsH0cpR4f/RGqAnXQ==", shortUrlRequest, cancellationToken);
-            
+            var response = await _client.PostAsJsonAsync($"/api/UrlShortener", shortUrlRequest, cancellationToken);
+
             var resultList = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<ShortUrlList>(resultList);
         }
@@ -67,8 +67,8 @@ namespace TinyBlazorAdmin.Data
         {
             CancellationToken cancellationToken;
 
-            var response = await _client.PostAsJsonAsync($"/api/UrlUpdate?code=DClqzYbsW3cZFbbLIkINEdZI2kp6js3fqILw6Ei8CwLlmgISSih6Ug==", editedUrl, cancellationToken);
-            
+            var response = await _client.PostAsJsonAsync($"/api/UrlUpdate", editedUrl, cancellationToken);
+
             var resultList = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<ShortUrlEntity>(resultList);
         }
@@ -76,12 +76,12 @@ namespace TinyBlazorAdmin.Data
 
 
 
-        public async Task<ShortUrlEntity> ArchiveShortUrl(ShortUrlEntity archivedUrl) 
+        public async Task<ShortUrlEntity> ArchiveShortUrl(ShortUrlEntity archivedUrl)
         {
             CancellationToken cancellationToken;
 
-            var response = await _client.PostAsJsonAsync($"/api/UrlArchive?code=8m22e/aFQv5Qa3ovxBc7f2m9eqRVPnLp1bpPJhHv1Z5HNzgUJ/fhPg==", archivedUrl, cancellationToken);
-            
+            var response = await _client.PostAsJsonAsync($"/api/UrlArchive", archivedUrl, cancellationToken);
+
             var resultList = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<ShortUrlEntity>(resultList);
 
