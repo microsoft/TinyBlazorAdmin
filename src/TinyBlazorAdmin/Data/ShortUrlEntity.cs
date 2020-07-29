@@ -32,7 +32,7 @@ namespace  TinyBlazorAdmin.Data
 
             var length = Url.ToString().Length;
             if (length >= 50){
-                return string.Concat(Url.Substring(1,50), "...");
+                return string.Concat(Url.Substring(0,49), "...");
             }
             return Url;
         }
