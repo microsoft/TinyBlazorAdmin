@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace tinyBlazorAdmin.Data
+namespace TinyBlazorAdmin.Data
 {
     public class ShortUrlList
     {

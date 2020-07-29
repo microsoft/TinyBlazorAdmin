@@ -1,6 +1,10 @@
 @page "/urlmanager"
-@using tinyBlazorAdmin.Data
-@inject UrlShortenerService UrlService
+@using TinyBlazorAdmin.Data
+@using Microsoft.AspNetCore.Authorization
+@inject IJSRuntime JSRuntime;
+@attribute [Authorize]
+
+@inject AzFuncClient azClient
 
 
 @if (UrlList == null)
@@ -9,19 +13,26 @@
 }
 else
 {
+    <button class="btn btn-primary"
+            @onclick="CreateShortUrl">
+        Add New Url
+    </button>
     <table class="table">
         <thead>
             <tr>
+                <th></th>
                 <th>Vanity</th>
                 <th>Title</th>
                 <th>Url</th>
                 <th>Clicks</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
             @foreach (var url in UrlList.UrlList)
             {
                 <tr>
+                    <td><button type="button" class="btn btn-outline-primary btn-sm" @onclick="@(() => CopyToClipboardAsync(url.ShortUrl))">Copy</button></td>
                     <td><a href="@url.ShortUrl" target="blank">@url.RowKey</a></td>
                     <td>
                         <span>@url.Title</span>
@@ -30,21 +41,175 @@ else
                         <span title="@url.Url">@url.GetDisplayableUrl()</span>
                     </td>
                     <td>@url.Clicks</td>
+                    <td><button type="button" class="btn btn-outline-primary btn-sm" @onclick="@(() => EditShortUrl(url))">Edit</button></td>
+                    <td><button type="button" class="btn btn-outline-primary btn-sm" @onclick="@(() => ArchiveShortUrl(url))">Archive</button></td>
                 </tr>
             }
         </tbody>
     </table>
+    <p>
+        <!-- Add a new ShortUrl -->
+        <button class="btn btn-primary"
+                @onclick="CreateShortUrl">
+            Add New Url
+        </button>
+    </p>
+}
+
+@if (ShowCreatePopup)
+{
+    <div class="modal fade show" id="createPopup" style="display:block" aria-modal="true" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Short Url Request</h4>
+                    <button type="button" class="close" @onclick="@ClosePopup">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                        <EditForm Model="shortUrlRequest" OnValidSubmit="SaveShortUrl">
+                            <DataAnnotationsValidator />
+                            <div>
+                                <label for="title">Title</label>
+                                <InputText id="title" class="form-control" placeholder="Title or description for this URL" @bind-Value="shortUrlRequest.Title" />
+                                <ValidationMessage For="@(() => shortUrlRequest.Title)" />
+                            </div>
+                            <br />
+                            <div>
+                                <label for="url">The Url to redirect</label>
+                                <InputText id="url" class="form-control" placeholder="The Url to redirect" @bind-Value="shortUrlRequest.Url" />
+                                <ValidationMessage For="@(() => shortUrlRequest.Url)" />
+                            </div>
+                            <br />
+                            <div>
+                                <label for="vanity">Vanity</label>
+                                <InputText id="vanity" class="form-control" placeholder="Vanity or the 'End' part of the Url" @bind-Value="shortUrlRequest.Vanity" />
+                                <ValidationMessage For="@(() => shortUrlRequest.Vanity)" />
+                            </div>
+                        </EditForm>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn" @onclick="@ClosePopup">Cancel</button>
+                    <button type="button" class="btn btn-primary" @onclick=@SaveShortUrl>Save</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+}
+
+
+@if (ShowEditPopup)
+{
+    <Modal Title="Edit Short Url" ClosePopup="ClosePopup">
+        
+    </Modal>
+
+
+    <div class="modal fade show" id="myModal" style="display:block" aria-modal="true" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Confirm action</h4>
+                    <button type="button" class="close" @onclick="@ClosePopup">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <EditForm Model="editedUrl" OnValidSubmit="SaveUpdatedShortUrl">
+                        <DataAnnotationsValidator />
+                        <div>
+                            <label for="edit-title">Title</label>
+                            <InputText id="edit-title" class="form-control" placeholder="Title or description for this URL" @bind-Value="editedUrl.Title" />
+                            <ValidationMessage For="@(() => editedUrl.Title)" />
+                        </div>
+                        <br />
+                        <div>
+                            <label for="edit-url">The Url to redirect</label>
+                            <InputText id="edit-url" class="form-control" placeholder="The Url to redirect" @bind-Value="editedUrl.Url" />
+                            <ValidationMessage For="@(() => editedUrl.Url)" />
+                        </div>
+                    </EditForm>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn" @onclick="@ClosePopup">Cancel</button>
+                    <button type="button" class="btn btn-primary" @onclick=@SaveUpdatedShortUrl>Save</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
 }
 
 @code
 {
+    bool ShowCreatePopup = false;
+    bool ShowEditPopup = false;
+    ShortUrlRequest shortUrlRequest = new ShortUrlRequest();
+    ShortUrlEntity editedUrl;
     ShortUrlList UrlList;
 
+    void ClosePopup()
+    {
+        ShowCreatePopup = false;
+        ShowEditPopup = false;
+    }
+    private async Task SaveShortUrl()
+    {
+        ShowCreatePopup = false;
+        await azClient.CreateShortUrl(shortUrlRequest);
+        UrlList = await azClient.GetUrlList();
+    }
+
+    private async Task SaveUpdatedShortUrl()
+    {
+        ShowEditPopup = false;
+        await azClient.UpdateShortUrl(editedUrl);
+        UrlList = await azClient.GetUrlList();
+    }
     protected override async Task OnParametersSetAsync()
     {
-        UrlList = await UrlService.GetUrlList();
+        UrlList = await azClient.GetUrlList();
+    }
+
+    [Authorize(Roles = "admin")]
+    void CreateShortUrl()
+    {
+        shortUrlRequest = new ShortUrlRequest();
+        ShowCreatePopup = true;
     }
 
 
+    [Authorize(Roles = "admin")]
+    void EditShortUrl(ShortUrlEntity urlEntity)
+    {
+        editedUrl = urlEntity;
+        ShowEditPopup = true;
+    }
+
+    [Authorize(Roles = "admin")]
+    public async Task ArchiveShortUrl(ShortUrlEntity urlEntity)
+    {
+        await azClient.ArchiveShortUrl(urlEntity);
+        UrlList = await azClient.GetUrlList();
+    }
+
+
+    [Inject] public IJSRuntime JsRuntime { get; set; }
+    public async Task CopyToClipboardAsync(string url)
+    {
+        await JSRuntime.InvokeVoidAsync("clipboardCopy.copyText", url);
+    }
 
 }
