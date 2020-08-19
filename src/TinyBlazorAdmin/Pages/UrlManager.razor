@@ -54,6 +54,49 @@ else
             Add New Url
         </button>
     </p>
+
+
+    <SfGrid DataSource="@gridData" AllowPaging="true" AllowSorting="true" AllowFiltering="true">
+        <GridPageSettings PageSize="5"></GridPageSettings>
+        <GridColumns>
+            <GridColumn Width="70">
+                <Template>
+                    @{
+                        var url = (context as ShortUrlEntity);
+                        <button type="button" class="btn btn-outline-primary btn-sm" @onclick="@(() => CopyToClipboardAsync(url.ShortUrl))">Copy</button>
+                    }
+                </Template>
+            </GridColumn>
+            <GridColumn HeaderText="Vanity">
+                <Template>
+                    @{
+                        var url = (context as ShortUrlEntity);
+                        <a href="https//:@url.ShortUrl" target="blank">@url.RowKey</a>
+                    }
+                </Template>
+            </GridColumn>
+            <GridColumn Field=@nameof(ShortUrlEntity.Title) HeaderText="Title" ></GridColumn>
+            <GridColumn Field=@nameof(ShortUrlEntity.Url) HeaderText="Url" ></GridColumn>
+            <GridColumn Field=@nameof(ShortUrlEntity.Clicks) HeaderText="Clicks" ></GridColumn>
+            <GridColumn Width="70">
+                <Template>
+                    @{
+                        var url = (context as ShortUrlEntity);
+                        <button type="button" class="btn btn-outline-primary btn-sm" @onclick="@(() => EditShortUrl(url))">Edit</button>
+                    }
+                </Template>
+            </GridColumn>
+            <GridColumn Width="70">
+                <Template>
+                    @{
+                        var url = (context as ShortUrlEntity);
+                        <button type="button" class="btn btn-outline-primary btn-sm" @onclick="@(() => ArchiveShortUrl(url))">Archive</button>
+                    }
+                </Template>
+            </GridColumn>
+        </GridColumns>
+    </SfGrid>
+   
 }
 
 @if (ShowCreatePopup)
@@ -145,7 +188,9 @@ else
         </div>
     </div>
 
-}
+
+
+} 
 
 @code
 {
@@ -154,6 +199,7 @@ else
     ShortUrlRequest shortUrlRequest = new ShortUrlRequest();
     ShortUrlEntity editedUrl;
     ShortUrlList UrlList;
+    public List<ShortUrlEntity> gridData { get; set; }
 
     void ClosePopup()
     {
@@ -173,10 +219,22 @@ else
         await azClient.UpdateShortUrl(editedUrl);
         UrlList = await azClient.GetUrlList();
     }
+
     protected override async Task OnParametersSetAsync()
     {
         UrlList = await azClient.GetUrlList();
-    }
+        gridData = UrlList.UrlList;
+        
+        foreach(var u in UrlList.UrlList){
+            var temp = u.ShortUrl;
+        }
+    } 
+
+    @* protected override async void OnInitialized()
+    {
+        UrlList = await azClient.GetUrlList();
+        gridData = UrlList.UrlList;
+    }  *@
 
     [Authorize(Roles = "admin")]
     void CreateShortUrl()
