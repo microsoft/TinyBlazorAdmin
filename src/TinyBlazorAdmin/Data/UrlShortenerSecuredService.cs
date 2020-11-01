@@ -86,6 +86,15 @@ namespace TinyBlazorAdmin.Data
             return JsonConvert.DeserializeObject<ShortUrlEntity>(resultList);
 
         }
+
+        public async Task<ClickStatsList> GetClickStats(string vanity) {
+            CancellationToken cancellationToken;
+
+            string result = string.Empty;
+            var response = await _client.PostAsJsonAsync($"/api/UrlClickStats", new { Vanity = vanity }, cancellationToken);
+            var resultList = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<ClickStatsList>(resultList);
+        }
     }
 
 

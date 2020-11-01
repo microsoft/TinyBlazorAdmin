@@ -1,0 +1,49 @@
+﻿
+@page "/statistics"
+
+@using Syncfusion.Blazor.Charts
+@using TinyBlazorAdmin.Data
+@using Microsoft.AspNetCore.Authorization
+@inject IJSRuntime JSRuntime;
+@attribute [Authorize]
+
+@inject AzFuncClient azClient
+
+<h3>Statistics</h3>
+
+<SfChart Width="60%">
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category"></ChartPrimaryXAxis>
+
+    <ChartSeriesCollection>
+        <ChartSeries DataSource="@clicksHistory" XName="X" YName="Y" Type="ChartSeriesType.Bar">
+        </ChartSeries>
+    </ChartSeriesCollection>
+</SfChart>
+
+@code {
+    private ClickStatsList clickStatsList;
+    private List<ClickData> clicksHistory;
+
+
+    public class ClickData
+    {
+        public DateTime XValue;
+        public string YValue;
+    }
+
+    private async Task UpdateUIList()
+    {
+        clickStatsList = await azClient.GetClickStats("azurlShortener");
+
+        foreach (var stat in clickStatsList.StatsList) {
+            clicksHistory.Add(new ClickData { XValue = DateTime.Parse(stat.Datetime), YValue = stat.PartitionKey });
+        }
+
+        StateHasChanged();
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await UpdateUIList();
+    }
+}

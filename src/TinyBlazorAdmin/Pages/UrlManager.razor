@@ -56,7 +56,7 @@ else
     </p>
 
 
-    <SfGrid DataSource="@gridData" AllowPaging="true" AllowSorting="true" AllowFiltering="true">
+    <SfGrid DataSource="@gridData" AllowPaging="true" AllowSorting="true" AllowFiltering="true" >
         <GridPageSettings PageSize="5"></GridPageSettings>
         <GridColumns>
             <GridColumn Width="70">
@@ -206,29 +206,35 @@ else
         ShowCreatePopup = false;
         ShowEditPopup = false;
     }
+
+    private async Task UpdateUIList() {
+        UrlList = await azClient.GetUrlList();
+        gridData = UrlList.UrlList;
+        StateHasChanged();
+    }
+
     private async Task SaveShortUrl()
     {
         ShowCreatePopup = false;
         await azClient.CreateShortUrl(shortUrlRequest);
-        UrlList = await azClient.GetUrlList();
+        await UpdateUIList();
     }
 
     private async Task SaveUpdatedShortUrl()
     {
         ShowEditPopup = false;
         await azClient.UpdateShortUrl(editedUrl);
-        UrlList = await azClient.GetUrlList();
+        await UpdateUIList();
     }
 
     protected override async Task OnParametersSetAsync()
     {
-        UrlList = await azClient.GetUrlList();
-        gridData = UrlList.UrlList;
-        
-        foreach(var u in UrlList.UrlList){
+        await UpdateUIList();
+
+        foreach (var u in UrlList.UrlList){
             var temp = u.ShortUrl;
         }
-    } 
+    }
 
     @* protected override async void OnInitialized()
     {
@@ -236,33 +242,33 @@ else
         gridData = UrlList.UrlList;
     }  *@
 
-    [Authorize(Roles = "admin")]
-    void CreateShortUrl()
-    {
-        shortUrlRequest = new ShortUrlRequest();
-        ShowCreatePopup = true;
-    }
+[Authorize(Roles = "admin")]
+void CreateShortUrl()
+{
+    shortUrlRequest = new ShortUrlRequest();
+    ShowCreatePopup = true;
+}
 
 
-    [Authorize(Roles = "admin")]
-    void EditShortUrl(ShortUrlEntity urlEntity)
-    {
-        editedUrl = urlEntity;
-        ShowEditPopup = true;
-    }
+[Authorize(Roles = "admin")]
+void EditShortUrl(ShortUrlEntity urlEntity)
+{
+    editedUrl = urlEntity;
+    ShowEditPopup = true;
+}
 
-    [Authorize(Roles = "admin")]
-    public async Task ArchiveShortUrl(ShortUrlEntity urlEntity)
-    {
-        await azClient.ArchiveShortUrl(urlEntity);
-        UrlList = await azClient.GetUrlList();
-    }
+[Authorize(Roles = "admin")]
+public async Task ArchiveShortUrl(ShortUrlEntity urlEntity)
+{
+    await azClient.ArchiveShortUrl(urlEntity);
+    await UpdateUIList();
+}
 
 
-    [Inject] public IJSRuntime JsRuntime { get; set; }
-    public async Task CopyToClipboardAsync(string url)
-    {
-        await JSRuntime.InvokeVoidAsync("clipboardCopy.copyText", url);
-    }
+[Inject] public IJSRuntime JsRuntime { get; set; }
+public async Task CopyToClipboardAsync(string url)
+{
+    await JSRuntime.InvokeVoidAsync("clipboardCopy.copyText", url);
+}
 
 }
