@@ -2,6 +2,10 @@
 
  Until an automatic deployment is created here is the steps to deploy the TinyBlazorAdmin app into Azure. You can run it somewhere else and even locally.
 
+## First time first
+
+You need to clean this repo into your own account. You will need to update the configuration file, therefore it need to be yours.
+
 ## Create the Backend
 
 This project is a frontend only so you will need to deploy the [Azure Url Shortener](https://github.com/FBoucher/AzUrlShortener) in "headless mode". Do to it click the blue button below and make sure to select **none** as Frontend
@@ -21,10 +25,13 @@ TinyAdminApp)
 
 **Note the ClientID and TenantID.**
 
-If you need to retreive the ClientID and TenantID, they will be diplay at the top of the page once you select an app in the portal.
+If you need to retrieve the ClientID and TenantID, they will be display at the top of the page once you select an app in the portal.
 
 ![Create a new registration][newRegistration]
 
+Go back in the Authentication and in the section Implicit grant check the checkbox `Access Token` and ID Tokens`
+
+![tokensaccess][tokensaccess]
 
 ### Create App for the Azure Function
 
@@ -64,7 +71,7 @@ Now, we need to configure the brand new Ad App registration. Still from the Azur
 ## Configure Backend and Frontend to Work Together
 
 
-And update those values inside `TinyBlazorAdmin\wwwroot\appsettings.json`
+Now in your GitHub it's time to update the settings. THe code need to know the AD app to use and the Azure Function to call. Update those values inside `TinyBlazorAdmin\wwwroot\appsettings.json`
 
 ```json
 {
@@ -72,6 +79,9 @@ And update those values inside `TinyBlazorAdmin\wwwroot\appsettings.json`
     "Authority": "https://login.microsoftonline.com/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxxxx",
     "ClientId": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxxxx",
     "ValidateAuthority": true
+  },
+  "UrlShortenerSecuredService": {
+    "Endpoint": "https://__azFunction_URL__.azurewebsites.net"
   }
 }
 ```
@@ -88,4 +98,4 @@ And update those values inside `TinyBlazorAdmin\wwwroot\appsettings.json`
 [azFunction_Auth_step1]: medias/azFunction_Auth_step1.png
 [azFunction_Auth_step2]: medias/azFunction_Auth_step2.png
 [ConfigAzFuncADapp]: medias/ConfigAzFuncADapp.png
-
+[tokensaccess]: medias/tokensaccess.png
