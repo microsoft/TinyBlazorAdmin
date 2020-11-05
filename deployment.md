@@ -89,8 +89,9 @@ Now, we need to configure the brand new Ad App registration. Still from the Azur
 
 ## Configure Backend and Frontend to Work Together
 
-
 Now in your GitHub it's time to update the settings. THe code need to know the AD app to use and the Azure Function to call. Update those values inside `TinyBlazorAdmin\wwwroot\appsettings.json`
+
+> The **Endpoint** _must_ ends with a `/`
 
 ```json
 {
@@ -100,7 +101,7 @@ Now in your GitHub it's time to update the settings. THe code need to know the A
     "ValidateAuthority": true
   },
   "UrlShortenerSecuredService": {
-    "Endpoint": "https://__azFunction_URL__.azurewebsites.net"
+    "Endpoint": "https://__azFunction_URL__.azurewebsites.net/"
   }
 }
 ```
