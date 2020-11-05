@@ -24,6 +24,16 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "cmatskas",
+      "name": "Christos Matskas",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/4126750?v=4",
+      "profile": "https://cmatskas.com",
+      "contributions": [
+        "security",
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
