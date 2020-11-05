@@ -20,7 +20,7 @@ This project is a frontend only so you will need to deploy the [Azure Url Shorte
 
 ## Deploy TinyBlazorAdmin (the Frontend)
 
-There are many ways you could run Tiny Blazor Admin website. In this deployment, we will use the new [Azure Static Web App (SWA)](https://azure.microsoft.com/en-ca/services/app-service/static/). However, because the TinyBlazorAdmin use Azure Active Directory (AAD), we need a standalone Azure Function (deployed at the previous step).
+There are many ways you could run Tiny Blazor Admin website. In this deployment, we will use the new [Azure Static Web App (SWA)](https://azure.microsoft.com/en-ca/services/app-service/static/?WT.mc_id=tinyblazoradmin-github-frbouche). However, because the TinyBlazorAdmin use Azure Active Directory (AAD), we need a standalone Azure Function (deployed at the previous step).
 
 Open Azure portal (portal.azure.com), open the **resource group** where you created the backend (ex: streamDemo is our case). Click the "**+**" and search **Static Web App**, and click the *Create* button. 
 
@@ -106,8 +106,24 @@ Now in your GitHub it's time to update the settings. THe code need to know the A
 }
 ```
 
+## Enabeling Cross-Origin Resource Sharing (CORS)
+
+We need to let AzUrlShortener been called by TinyBlazorAdmin. They are running in different website, therefore we need to configure Cross-Origin Resource Sharing (CORS). 
+
+First we need the url of the caller (aka TinyBlazorAdmin). From the Azure Portal, open the TinyBlazorAdmin SWA blade. Note the URL display in the top right of the page this is the URL of your admin page.
+
+![swa_URL][swa_URL]
+
+Now we need to add this URL to the list in the CORS of the Azure Function that run AzUrlShortener. From the Azure portal open the blade of AzUrlShortener. From the left menu search CORS, and click it.  Add the URL of the SWA and don't forget to save.
 
 
+![azFunction_CORS][azFunction_CORS]
+
+## Try it!
+
+Voila, the deployment is now completed. You can test it by creating a new short URL using the admin SWA. 
+
+> To add a custom domain to your AzUrlShortener, [follow these steps](https://github.com/FBoucher/AzUrlShortener/blob/main/post-deployment-configuration.md#add-a-custom-domain)
 
 
 [CreateBackend]: medias/CreateBackend.png
@@ -122,3 +138,5 @@ Now in your GitHub it's time to update the settings. THe code need to know the A
 [swa_create1]: medias/swa_create1.png
 [swa_create2]: medias/swa_create2.png
 [swa_create3]: medias/swa_create3.png
+[swa_URL]: medias/swa_URL.png
+[azFunction_CORS]: medias/azFunction_CORS.png
