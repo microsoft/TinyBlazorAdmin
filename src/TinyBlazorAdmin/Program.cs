@@ -26,9 +26,12 @@ namespace TinyBlazorAdmin
             builder.Services.AddMsalAuthentication(options =>
             {
                 options.ProviderOptions
-                .DefaultAccessTokenScopes.Add($"{functionEndpoint(builder)}user_impersonation");
+                .DefaultAccessTokenScopes.Add("user.read");
+                options.ProviderOptions
+                .AdditionalScopesToConsent.Add($"{functionEndpoint(builder)}user_impersonation");
                 builder.Configuration.Bind("AzureAd", options.ProviderOptions.Authentication);
             });
+
 
             // set up DI
             builder.Services.AddTransient<AzFuncAuthorizationMessageHandler>();
