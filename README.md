@@ -3,7 +3,7 @@
 [![All Contributors](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
- Admin tools for [Azure Url Shortener](https://github.com/FBoucher/AzUrlShortener) using [Blazor Single Page Application (webassembly)](https://azure.microsoft.com/en-ca/services/app-service/static/?WT.mc_id=tinyblazoradmin-github-frbouche).
+ Admin tools for [Azure Url Shortener](https://github.com/FBoucher/AzUrlShortener) using [Blazor Single Page Application (webassembly)](https://azure.microsoft.com/services/app-service/static/?WT.mc_id=dotnet-0000-frbouche).
 
 ![TinyBlazorAdmin][TinyBlazorAdmin]
 
