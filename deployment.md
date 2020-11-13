@@ -42,12 +42,20 @@ Once it's all filled, click the Review, and create button. It will takes a few m
 
 ## Create Azure Active Directory (AAD) Components
 
-### Create App for the Fontend
+### Create AAD App for the Fontend
 
 We need a Service Principal that we will use to authenticate our user to Azure Active Directory (AAD). To achieve this we will create a application registration in Azure.
 
-From the Azure Portal (portal.azure.com), open the **Azure Active Directory** page. From the left option menu select **App registrations**, then create a new registration. Use a name that will helps you to remember that it's for the TinyBlazorAdmin website (ex: 
-TinyAdminApp)
+From the Azure Portal (portal.azure.com), open the **Azure Active Directory** page. From the left option menu select **App registrations**, then create a new registration. Use a name that will helps you to remember that it's for the TinyBlazorAdmin website (ex: TinyAdminApp) (1)
+
+![RegisterClientApp][RegisterClientApp]
+
+For the Redirect URL use **Web** (3) and enter the URL of the Azure Static WebApp deployed previously and add `/authentication/login-callback`. It should look lsomething like this:
+
+```
+https://bolly-tiger-04a15beef.azurestaticapps.net/authentication/login-callback
+
+```
 
 **Note the ClientID and TenantID.**
 
@@ -140,3 +148,4 @@ Voila, the deployment is now completed. You can test it by creating a new short 
 [swa_create3]: medias/swa_create3.png
 [swa_URL]: medias/swa_URL.png
 [azFunction_CORS]: medias/azFunction_CORS.png
+[RegisterClientApp]: medias/RegisterClientApp.jpg
