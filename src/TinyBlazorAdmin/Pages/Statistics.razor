@@ -11,33 +11,48 @@
 
 <h3>Statistics</h3>
 
-<SfChart Width="60%">
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category"></ChartPrimaryXAxis>
+<SfChart Title="Click Stats" Width="60%">
+    <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime">
+        <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+    </ChartPrimaryXAxis>
+
+    <ChartPrimaryYAxis LabelFormat="{value}" RangePadding="ChartRangePadding.None" Interval="20">
+            <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+            <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+    </ChartPrimaryYAxis>
+    <ChartTooltipSettings Enable="true"></ChartTooltipSettings>
 
     <ChartSeriesCollection>
-        <ChartSeries DataSource="@clicksHistory" XName="X" YName="Y" Type="ChartSeriesType.Bar">
+        <ChartSeries DataSource="@clicksHistory" XName="XValue" YName="YValue" Type="ChartSeriesType.Line">
         </ChartSeries>
     </ChartSeriesCollection>
 </SfChart>
 
 @code {
     private ClickStatsList clickStatsList;
-    private List<ClickData> clicksHistory;
+    private List<ClickData> clicksHistory = new List<ClickData>();
 
 
     public class ClickData
     {
         public DateTime XValue;
-        public string YValue;
+        public int YValue;
     }
 
     private async Task UpdateUIList()
     {
-        clickStatsList = await azClient.GetClickStats("azurlShortener");
+        clickStatsList = await azClient.GetClickStats("awesome");
 
-        foreach (var stat in clickStatsList.StatsList) {
-            clicksHistory.Add(new ClickData { XValue = DateTime.Parse(stat.Datetime), YValue = stat.PartitionKey });
-        }
+        var temp = clickStatsList.StatsList.GroupBy( s => s.Datetime)
+                                            .Select(stat => new ClickData{
+                                                XValue = DateTime.Parse(stat.Key),
+                                                YValue = stat.Count()
+                                            });
+        clicksHistory = temp.ToList();
+//        foreach (var stat in clickStatsList.StatsList) {
+//            .Add(new ClickData { XValue = DateTime.Parse(stat.Datetime), YValue = Convert.ToInt32(stat.PartitionKey) });
+//        }
 
         StateHasChanged();
     }
