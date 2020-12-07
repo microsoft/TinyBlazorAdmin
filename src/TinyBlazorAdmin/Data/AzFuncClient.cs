@@ -43,7 +43,7 @@ namespace TinyBlazorAdmin.Data
             return result;
         }
 
-        public async Task<ClickStatsList> GetClickStats(string vanity)
+        public async Task<ClickStatsEntityList> GetClickStats(string vanity)
         {
             var result = await _urlSecuredService.GetClickStats(vanity);
             return result;

@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using Microsoft.AspNetCore.Components;
 using System.Text;
 using System.Net.Http.Json;
+using System;
 
 namespace TinyBlazorAdmin.Data
 {
@@ -87,13 +88,20 @@ namespace TinyBlazorAdmin.Data
 
         }
 
-        public async Task<ClickStatsList> GetClickStats(string vanity) {
+        public async Task<ClickStatsEntityList> GetClickStats(string vanity) {
+            try{
             CancellationToken cancellationToken;
 
             string result = string.Empty;
             var response = await _client.PostAsJsonAsync($"/api/UrlClickStats", new { Vanity = vanity }, cancellationToken);
             var resultList = await response.Content.ReadAsStringAsync();
-            return JsonConvert.DeserializeObject<ClickStatsList>(resultList);
+            return JsonConvert.DeserializeObject<ClickStatsEntityList>(resultList);;
+
+            }
+            catch(Exception ex){
+                var ttt = ex.Message;
+                return new ClickStatsEntityList();
+            }    
         }
     }
 

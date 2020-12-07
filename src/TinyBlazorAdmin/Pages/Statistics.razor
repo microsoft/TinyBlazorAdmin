@@ -11,28 +11,45 @@
 
 <h3>Statistics</h3>
 
-<SfChart Title="Click Stats" Width="60%">
+<SfChart Title="Click Stats">
+    <ChartEvents Load="ChartLoad"/>
     <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime">
+    <ChartPrimaryXAxis  ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime"  
+                        LabelFormat="y/M/d h:m" 
+                        IntervalType="IntervalType.Days" 
+                        EdgeLabelPlacement="EdgeLabelPlacement.Shift">
         <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
     </ChartPrimaryXAxis>
 
-    <ChartPrimaryYAxis LabelFormat="{value}" RangePadding="ChartRangePadding.None" Interval="20">
+    <ChartPrimaryYAxis  LabelFormat="{value}" 
+                        RangePadding="ChartRangePadding.None" 
+                        Minimum="0" 
+                        Maximum="20">
             <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
             <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
     </ChartPrimaryYAxis>
     <ChartTooltipSettings Enable="true"></ChartTooltipSettings>
 
     <ChartSeriesCollection>
-        <ChartSeries DataSource="@clicksHistory" XName="XValue" YName="YValue" Type="ChartSeriesType.Line">
+        <ChartSeries    DataSource="@clicksHistory" 
+                        Name="someData"
+                        XName="XValue" 
+                        YName="YValue" 
+                        Width="2"
+                        Opacity="1"
+                        Type="ChartSeriesType.Line">
         </ChartSeries>
     </ChartSeriesCollection>
 </SfChart>
+<p>@test</p>
 
 @code {
-    private ClickStatsList clickStatsList;
+    private ClickStatsEntityList clickStatsList;
     private List<ClickData> clicksHistory = new List<ClickData>();
+    
+    private string test = "";
 
+    private readonly Random _random = new Random(); 
 
     public class ClickData
     {
@@ -44,21 +61,41 @@
     {
         clickStatsList = await azClient.GetClickStats("awesome");
 
-        var temp = clickStatsList.StatsList.GroupBy( s => s.Datetime)
+         var temp = clickStatsList.ClickStatsList.GroupBy( s => s.Datetime)
                                             .Select(stat => new ClickData{
                                                 XValue = DateTime.Parse(stat.Key),
                                                 YValue = stat.Count()
-                                            });
-        clicksHistory = temp.ToList();
-//        foreach (var stat in clickStatsList.StatsList) {
-//            .Add(new ClickData { XValue = DateTime.Parse(stat.Datetime), YValue = Convert.ToInt32(stat.PartitionKey) });
-//        }
+                                            }); 
 
-        StateHasChanged();
+        @* var temp = clickStatsList.ClickStatsList.Select(stat => new ClickData{
+                                                XValue = DateTime.Parse(stat.Datetime),
+                                                YValue = _random.Next(10)}); *@
+                             
+        clicksHistory = temp.ToList();
+
+        foreach(var x in clicksHistory){
+            test += "(" + x.XValue.ToShortDateString() + " --- " + x.YValue + ")" + "\n";
+        }
+
+        //StateHasChanged();
     }
 
     protected override async Task OnParametersSetAsync()
     {
+        //await UpdateUIList();
+    } 
+
+
+    protected async Task ChartLoad(ILoadedEventArgs Args){
+        //clicksHistory.Add(new ClickData{XValue = new DateTime(2005, 01, 01), YValue = _random.Next(100)});
+        //clicksHistory.Add(new ClickData{XValue = new DateTime(2006, 01, 01), YValue = _random.Next(100)});
+        //clicksHistory.Add(new ClickData{XValue = new DateTime(2007, 01, 01), YValue = _random.Next(100)});
+        //clicksHistory.Add(new ClickData{XValue = new DateTime(2008, 01, 01), YValue = _random.Next(100)});
+        //clicksHistory.Add(new ClickData{XValue = new DateTime(2009, 01, 01), YValue = _random.Next(100)});
+        //clicksHistory.Add(new ClickData{XValue = new DateTime(2010, 01, 01), YValue = _random.Next(100)});
+        //clicksHistory.Add(new ClickData{XValue = new DateTime(2011, 01, 01), YValue = _random.Next(100)});
+        //clicksHistory.Add(new ClickData{XValue = new DateTime(2012, 01, 01), YValue = _random.Next(100)});
+
         await UpdateUIList();
     }
 }

@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace TinyBlazorAdmin.Data
 {
-    public class ClickStatsList
+    public class ClickStatsEntityList
     {
-        public List<ClickStatsEntity> StatsList { get; set; }
+        public List<ClickStatsEntity> ClickStatsList { get; set; }
     }
 }
