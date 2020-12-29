@@ -34,6 +34,24 @@
         "security",
         "bug"
       ]
+    },
+    {
+      "login": "ronhowe",
+      "name": "Ron Howe",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/5210043?v=4",
+      "profile": "https://github.com/ronhowe",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "Mark-Phillipson",
+      "name": "Mark Phillipson",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/16239024?v=4",
+      "profile": "https://github.com/Mark-Phillipson",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,

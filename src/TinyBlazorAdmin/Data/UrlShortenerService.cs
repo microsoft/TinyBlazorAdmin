@@ -1,26 +1,18 @@
-using System.IO;
-using System.Net.Http;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
-
 
 namespace tinyBlazorAdmin.Data
 {
     public class UrlShortenerService
     {
         public IConfiguration Config { get; set; }
+
         public UrlShortenerService(IConfiguration config)
         {
             //Config = GetConfiguration();
             Config = config;
         }
 
-
         // private async Task<string> GetFunctionUrl(string functionName){
-
-
         //     StringBuilder FuncUrl = new StringBuilder(await GetSecret("AzFunctionURL"));
         //     FuncUrl.Append("/api/");
         //     FuncUrl.Append(functionName);
@@ -31,10 +23,9 @@ namespace tinyBlazorAdmin.Data
         //         FuncUrl.Append("?code=");
         //         FuncUrl.Append(code);
         //     }
-            
+
         //     return FuncUrl.ToString();
         // }
-
 
         // public async Task<ShortUrlList> GetUrlList()
         // {
@@ -54,7 +45,6 @@ namespace tinyBlazorAdmin.Data
         //         }
         //     }
         // }
-
 
         // private static StringContent CreateHttpContent(object content)
         // {
