@@ -7,11 +7,11 @@
 
 ![TinyBlazorAdmin][TinyBlazorAdmin]
 
-The project is now at version 1 and ready to be use! ~~just getting started but should have a v1 ready in Summer 2020~~. It will use Azure Active Directory (AAD) as authentication for the user and to connect to the API (Azure Function).
+The project is now at version 1 and ready to be used! ~~just getting started but should have a v1 ready in Summer 2020~~. It will use Azure Active Directory (AAD) as authentication for the user and to connect to the API (Azure Function).
 
 # Deployment
 
- Until an automatic deployment is created, you will need to deploy some part manually. [All the steps to deploy the TinyBlazorAdmin app into Azure are listed here](deployment.md). You can also run it somewhere else if you prefer, even locally.
+Until an automatic deployment is created, you will need to deploy some part manually. [All the steps to deploy the TinyBlazorAdmin app into Azure are listed here](deployment.md). You can also run it somewhere else if you prefer, even locally.
 
 
 
