@@ -2,7 +2,7 @@
 
 Until a "full automatic" deployment is created, here are all the steps to deploy the TinyBlazorAdmin app into Azure. You can run it somewhere else and even locally.
 
-## First things first
+## First thing first
 
 You need to **fork this repo** into your own account. You will need to update the configuration (this document will explain when and what), therefore it needs to be yours.
 
@@ -11,7 +11,7 @@ To fork a GitHub repository click on the fork button on the top right of the scr
 
 ## Deploy AzUrlShortener (the Backend)
 
-This project is a frontend only so you will need to deploy the [Azure Url Shortener](https://github.com/FBoucher/AzUrlShortener) in "headless mode". To do it, click the blue button below and make sure to select **none** as Frontend
+This project is a frontend only so you will need to deploy the [Azure Url Shortener](https://github.com/FBoucher/AzUrlShortener) in "headless mode". Do to it, click the blue button below and make sure to select **none** as Frontend
 
 [![Deploy Backend to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/?WT.mc_id=urlshortener-github-frbouche#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FFBoucher%2FAzUrlShortener%2Fmain%2Fdeployment%2FazureDeploy.json)
 
@@ -20,7 +20,7 @@ This project is a frontend only so you will need to deploy the [Azure Url Shorte
 
 ## Deploy TinyBlazorAdmin (the Frontend)
 
-There are many ways you could run Tiny Blazor Admin website. In this deployment, we will use the new [Azure Static Web App (SWA)](https://azure.microsoft.com/en-ca/services/app-service/static/?WT.mc_id=tinyblazoradmin-github-frbouche). However, because the TinyBlazorAdmin uses Azure Active Directory (AAD), we need a standalone Azure Function (deployed in the previous step).
+There are many ways you could run Tiny Blazor Admin website. In this deployment, we will use the new [Azure Static Web App (SWA)](https://azure.microsoft.com/en-ca/services/app-service/static/?WT.mc_id=tinyblazoradmin-github-frbouche). However, because the TinyBlazorAdmin use Azure Active Directory (AAD), we need a standalone Azure Function (deployed at the previous step).
 
 Open Azure portal (portal.azure.com), open the **resource group** where you created the backend (ex: streamDemo is our case). Click the "**+**" and search **Static Web App**, and click the *Create* button. 
 
@@ -34,20 +34,28 @@ Select your organization, repository and branch (ex: main).
 
 ![Creating swa part 3][swa_create3]
 
-Select **Blazor** as your *Build Presets*. The *App location* needs to be the location of the project file; in our case `src/TinyBlazorAdmin/`. The *App artifact location* can be left as wwwroot. 
+Select **Blazor** as your *Build Presets*. The *App location* needs to be the location of the project file; in our case `src/TinyBlazorAdmin/`. The *App artifact location* can be left to wwwroot. 
 
 >Note: We don't need the Api location, because AzURLShortener is deployed in a full standalone Azure Function.
 
-Once it's all filled, click the Review, and create button. It will take a few minutes to get deployed. During this time let's create and configure our security components.
+Once it's all filled, click the Review, and create button. It will takes a few minutes to get deployed. During this time let's create and configure our security components.
 
 ## Create Azure Active Directory (AAD) Components
 
-### Create App for the Fontend
+### Create AAD App for the Fontend
 
 We need a Service Principal that we will use to authenticate our user to Azure Active Directory (AAD). To achieve this we will create an application registration in Azure.
 
-From the Azure Portal (portal.azure.com), open the **Azure Active Directory** page. From the left option menu select **App registrations**, then create a new registration. Use a name that will help you to remember that it's for the TinyBlazorAdmin website (ex: 
-TinyAdminApp)
+From the Azure Portal (portal.azure.com), open the **Azure Active Directory** page. From the left option menu select **App registrations**, then create a new registration. Use a name that will help you to remember that it's for the TinyBlazorAdmin website (ex: TinyAdminApp) (1)
+
+![RegisterClientApp][RegisterClientApp]
+
+For the Redirect URL use **Web** (3) and enter the URL of the Azure Static WebApp deployed previously and add `/authentication/login-callback`. It should look lsomething like this:
+
+```
+https://bolly-tiger-04a15beef.azurestaticapps.net/authentication/login-callback
+
+```
 
 **Note the ClientID and TenantID.**
 
@@ -108,7 +116,6 @@ Now in your GitHub it's time to update the settings. The code needs to know the 
 
 ## Enabeling Cross-Origin Resource Sharing (CORS)
 
-We need to let AzUrlShortener be called by TinyBlazorAdmin. They are running in different websites, therefore we need to configure Cross-Origin Resource Sharing (CORS). 
 
 First we need the url of the caller (aka TinyBlazorAdmin). From the Azure Portal, open the TinyBlazorAdmin SWA blade. Note the URL display in the top right of the page this is the URL of your admin page.
 
@@ -135,8 +142,3 @@ Voila, the deployment is now completed. You can test it by creating a new short 
 [azFunction_Auth_step2]: medias/azFunction_Auth_step2.png
 [ConfigAzFuncADapp]: medias/ConfigAzFuncADapp.png
 [tokensaccess]: medias/tokensaccess.png
-[swa_create1]: medias/swa_create1.png
-[swa_create2]: medias/swa_create2.png
-[swa_create3]: medias/swa_create3.png
-[swa_URL]: medias/swa_URL.png
-[azFunction_CORS]: medias/azFunction_CORS.png

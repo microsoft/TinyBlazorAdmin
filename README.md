@@ -1,9 +1,9 @@
 # TinyBlazorAdmin
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-4-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
- Admin tools for [Azure Url Shortener](https://github.com/FBoucher/AzUrlShortener) using [Blazor Single Page Application (webassembly)](https://azure.microsoft.com/en-ca/services/app-service/static/?WT.mc_id=tinyblazoradmin-github-frbouche).
+ Admin tools for [Azure Url Shortener](https://github.com/FBoucher/AzUrlShortener) using [Blazor Single Page Application (webassembly)](https://azure.microsoft.com/services/app-service/static/?WT.mc_id=dotnet-0000-frbouche).
 
 ![TinyBlazorAdmin][TinyBlazorAdmin]
 
@@ -37,6 +37,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="http://cloud5mins.com"><img src="https://avatars3.githubusercontent.com/u/2404846?v=4" width="100px;" alt=""/><br /><sub><b>Frank Boucher</b></sub></a><br /><a href="https://github.com/FBoucher/TinyBlazorAdmin/commits?author=FBoucher" title="Documentation">📖</a> <a href="https://github.com/FBoucher/TinyBlazorAdmin/commits?author=FBoucher" title="Code">💻</a> <a href="#ideas-FBoucher" title="Ideas, Planning, & Feedback">🤔</a></td>
     <td align="center"><a href="http://www.mayoclinic.org"><img src="https://avatars3.githubusercontent.com/u/765798?v=4" width="100px;" alt=""/><br /><sub><b>jbrule</b></sub></a><br /><a href="https://github.com/FBoucher/TinyBlazorAdmin/commits?author=jbrule" title="Documentation">📖</a></td>
     <td align="center"><a href="https://cmatskas.com"><img src="https://avatars3.githubusercontent.com/u/4126750?v=4" width="100px;" alt=""/><br /><sub><b>Christos Matskas</b></sub></a><br /><a href="#security-cmatskas" title="Security">🛡️</a> <a href="https://github.com/FBoucher/TinyBlazorAdmin/issues?q=author%3Acmatskas" title="Bug reports">🐛</a></td>
+    <td align="center"><a href="https://github.com/ronhowe"><img src="https://avatars1.githubusercontent.com/u/5210043?v=4" width="100px;" alt=""/><br /><sub><b>Ron Howe</b></sub></a><br /><a href="https://github.com/FBoucher/TinyBlazorAdmin/commits?author=ronhowe" title="Documentation">📖</a></td>
   </tr>
 </table>
 
