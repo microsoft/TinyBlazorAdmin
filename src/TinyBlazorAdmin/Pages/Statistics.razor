@@ -5,7 +5,7 @@
 @using TinyBlazorAdmin.Data
 @using Microsoft.AspNetCore.Authorization
 @inject IJSRuntime JSRuntime;
-@attribute [Authorize]
+@* @attribute [Authorize] *@
 
 @inject AzFuncClient azClient
 
@@ -15,7 +15,7 @@
     <ChartEvents Load="ChartLoad"/>
     <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
     <ChartPrimaryXAxis  ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime"  
-                        LabelFormat="y/M/d h:m" 
+                        LabelFormat="y/M/d" 
                         IntervalType="IntervalType.Days" 
                         EdgeLabelPlacement="EdgeLabelPlacement.Shift">
         <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
@@ -24,7 +24,7 @@
     <ChartPrimaryYAxis  LabelFormat="{value}" 
                         RangePadding="ChartRangePadding.None" 
                         Minimum="0" 
-                        Maximum="20">
+                        Maximum="5">
             <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
             <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
     </ChartPrimaryYAxis>
@@ -41,7 +41,7 @@
         </ChartSeries>
     </ChartSeriesCollection>
 </SfChart>
-<p>@test</p>
+<p>@((MarkupString)test)</p>
 
 @code {
     private ClickStatsEntityList clickStatsList;
@@ -53,7 +53,7 @@
 
     public class ClickData
     {
-        public DateTime XValue;
+        public string XValue;
         public int YValue;
     }
 
@@ -61,20 +61,20 @@
     {
         clickStatsList = await azClient.GetClickStats("awesome");
 
-         var temp = clickStatsList.ClickStatsList.GroupBy( s => s.Datetime)
+         var temp = clickStatsList.ClickStatsList.GroupBy( s => DateTime.Parse(s.Datetime).Date)
                                             .Select(stat => new ClickData{
-                                                XValue = DateTime.Parse(stat.Key),
+                                                XValue = stat.Key.ToShortDateString(),
                                                 YValue = stat.Count()
                                             }); 
 
-        @* var temp = clickStatsList.ClickStatsList.Select(stat => new ClickData{
-                                                XValue = DateTime.Parse(stat.Datetime),
-                                                YValue = _random.Next(10)}); *@
-                             
+        //var temp = clickStatsList.ClickStatsList.Select(stat => new ClickData{
+        //                                        XValue = DateTime.Parse(stat.Datetime),
+        //                                        YValue = _random.Next(10)});
+        //                     
         clicksHistory = temp.ToList();
 
         foreach(var x in clicksHistory){
-            test += "(" + x.XValue.ToShortDateString() + " --- " + x.YValue + ")" + "\n";
+            test += "<br/>(" + x.XValue + " --- " + x.YValue + ")" + "\n";
         }
 
         //StateHasChanged();
