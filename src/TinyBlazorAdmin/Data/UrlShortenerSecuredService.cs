@@ -1,11 +1,10 @@
-
+using Microsoft.AspNetCore.Components;
+using Newtonsoft.Json;
 using System.Net.Http;
+using System.Net.Http.Json;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
-using Microsoft.AspNetCore.Components;
-using System.Text;
-using System.Net.Http.Json;
 
 namespace TinyBlazorAdmin.Data
 {
@@ -19,8 +18,6 @@ namespace TinyBlazorAdmin.Data
         /// the functions endpoint.
         /// </summary>
         private readonly HttpClient _client;
-
-
 
         private static StringContent CreateHttpContent(object content)
         {
@@ -44,7 +41,6 @@ namespace TinyBlazorAdmin.Data
             _client = factory.CreateClient(nameof(UrlShortenerSecuredService));
         }
 
-
         public async Task<ShortUrlList> GetUrlList()
         {
             string result = string.Empty;
@@ -54,7 +50,7 @@ namespace TinyBlazorAdmin.Data
 
         public async Task<ShortUrlList> CreateShortUrl(ShortUrlRequest shortUrlRequest)
         {
-            CancellationToken cancellationToken;
+            CancellationToken cancellationToken = new CancellationToken();
 
             var response = await _client.PostAsJsonAsync($"/api/UrlShortener", shortUrlRequest, cancellationToken);
 
@@ -62,10 +58,9 @@ namespace TinyBlazorAdmin.Data
             return JsonConvert.DeserializeObject<ShortUrlList>(resultList);
         }
 
-
         public async Task<ShortUrlEntity> UpdateShortUrl(ShortUrlEntity editedUrl)
         {
-            CancellationToken cancellationToken;
+            CancellationToken cancellationToken = new CancellationToken();
 
             var response = await _client.PostAsJsonAsync($"/api/UrlUpdate", editedUrl, cancellationToken);
 
@@ -73,22 +68,14 @@ namespace TinyBlazorAdmin.Data
             return JsonConvert.DeserializeObject<ShortUrlEntity>(resultList);
         }
 
-
-
-
         public async Task<ShortUrlEntity> ArchiveShortUrl(ShortUrlEntity archivedUrl)
         {
-            CancellationToken cancellationToken;
+            CancellationToken cancellationToken = new CancellationToken();
 
             var response = await _client.PostAsJsonAsync($"/api/UrlArchive", archivedUrl, cancellationToken);
 
             var resultList = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<ShortUrlEntity>(resultList);
-
         }
     }
-
-
-
-
 }

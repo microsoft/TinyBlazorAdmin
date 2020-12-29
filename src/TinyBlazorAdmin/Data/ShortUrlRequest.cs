@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 
 namespace TinyBlazorAdmin.Data
 {
@@ -9,18 +8,19 @@ namespace TinyBlazorAdmin.Data
 
         public string Title { get; set; }
 
-
-        public string Vanity { 
-            get{
-                return (_vanity != null)?_vanity:string.Empty;
+        public string Vanity
+        {
+            get
+            {
+                return (_vanity != null) ? _vanity : string.Empty;
             }
-            set{
+            set
+            {
                 _vanity = value;
             }
         }
 
         [Required]
         public string Url { get; set; }
-
     }
 }
