@@ -2,7 +2,7 @@
 @using TinyBlazorAdmin.Data
 @using Microsoft.AspNetCore.Authorization
 @inject IJSRuntime JSRuntime;
-@* @attribute [Authorize] *@
+@attribute [Authorize]
 
 @inject AzFuncClient azClient
 
@@ -17,7 +17,7 @@ else
             @onclick="CreateShortUrl">
         Add New Url
     </button>
-    <table class="table">
+    @* <table class="table">
         <thead>
             <tr>
                 <th></th>
@@ -46,18 +46,9 @@ else
                 </tr>
             }
         </tbody>
-    </table>
-    <p>
-        <!-- Add a new ShortUrl -->
-        <button class="btn btn-primary"
-                @onclick="CreateShortUrl">!
-            Add New Url
-        </button>
-    </p>
-
-
+    </table> *@
     <SfGrid DataSource="@gridData" AllowPaging="true" AllowSorting="true" AllowFiltering="true" >
-        <GridPageSettings PageSize="5"></GridPageSettings>
+        <GridPageSettings PageSize="15"></GridPageSettings>
         <GridColumns>
             <GridColumn Width="70">
                 <Template>
@@ -77,7 +68,14 @@ else
             </GridColumn>
             <GridColumn Field=@nameof(ShortUrlEntity.Title) HeaderText="Title" ></GridColumn>
             <GridColumn Field=@nameof(ShortUrlEntity.Url) HeaderText="Url" ></GridColumn>
-            <GridColumn Field=@nameof(ShortUrlEntity.Clicks) HeaderText="Clicks" ></GridColumn>
+            <GridColumn Field=@nameof(ShortUrlEntity.Clicks) HeaderText="Clicks" >
+                <Template>
+                    @{
+                        var url = (context as ShortUrlEntity);
+                        <a href="/Statistics/@url.RowKey">@url.Clicks 📊</a>
+                    }
+                </Template>
+            </GridColumn>
             <GridColumn Width="70">
                 <Template>
                     @{
@@ -96,6 +94,16 @@ else
             </GridColumn>
         </GridColumns>
     </SfGrid>
+    <p>
+        <!-- Add a new ShortUrl -->
+        <button class="btn btn-primary"
+                @onclick="CreateShortUrl">!
+            Add New Url
+        </button>
+    </p>
+
+
+ 
    
 }
 

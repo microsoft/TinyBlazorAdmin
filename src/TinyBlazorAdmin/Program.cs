@@ -48,7 +48,7 @@ namespace TinyBlazorAdmin
             builder.Services.AddTransient<AzFuncClient>();
 
             //Add SycnFusion Controls
-            //Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("KEY"); 
+            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("MzgwNjM5QDMxMzgyZTMzMmUzMGhPbXloTFpmTVFQTEgrMUZ2NjZONkFEZmhLOG16RkhYSkYyZmZpOHRVUkU9"); 
             builder.Services.AddSyncfusionBlazor();
 
             await builder.Build().RunAsync();

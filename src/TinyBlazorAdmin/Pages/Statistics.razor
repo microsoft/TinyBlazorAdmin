@@ -1,30 +1,26 @@
 ﻿
-@page "/statistics"
+@page "/statistics/{vanity}"
 
 @using Syncfusion.Blazor.Charts
 @using TinyBlazorAdmin.Data
 @using Microsoft.AspNetCore.Authorization
 @inject IJSRuntime JSRuntime;
-@* @attribute [Authorize] *@
+@attribute [Authorize] 
 
 @inject AzFuncClient azClient
 
 <h3>Statistics</h3>
-
-<SfChart Title="Click Stats">
-    <ChartEvents Load="ChartLoad"/>
+<a href="/UrlManager/"> &st;-- Back</a>
+<SfChart Title="Click Stats" DataSource="@clicksHistory" >
+    <ChartEvents/>
     <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
     <ChartPrimaryXAxis  ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime"  
                         LabelFormat="y/M/d" 
-                        IntervalType="IntervalType.Days" 
                         EdgeLabelPlacement="EdgeLabelPlacement.Shift">
         <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
     </ChartPrimaryXAxis>
 
-    <ChartPrimaryYAxis  LabelFormat="{value}" 
-                        RangePadding="ChartRangePadding.None" 
-                        Minimum="0" 
-                        Maximum="5">
+    <ChartPrimaryYAxis  LabelFormat="{value}" >
             <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
             <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
     </ChartPrimaryYAxis>
@@ -44,7 +40,9 @@
 <p>@((MarkupString)test)</p>
 
 @code {
-    private ClickStatsEntityList clickStatsList;
+    [Parameter]
+    public string Vanity { get; set; }
+    private ClickDateList clickStatsList;
     private List<ClickData> clicksHistory = new List<ClickData>();
     
     private string test = "";
@@ -59,25 +57,19 @@
 
     private async Task UpdateUIList()
     {
-        clickStatsList = await azClient.GetClickStats("awesome");
+        if(Vanity.Length > 0){
+            clickStatsList = await azClient.GetClickStats(Vanity);
 
-         var temp = clickStatsList.ClickStatsList.GroupBy( s => DateTime.Parse(s.Datetime).Date)
-                                            .Select(stat => new ClickData{
-                                                XValue = stat.Key.ToShortDateString(),
-                                                YValue = stat.Count()
-                                            }); 
-
-        //var temp = clickStatsList.ClickStatsList.Select(stat => new ClickData{
-        //                                        XValue = DateTime.Parse(stat.Datetime),
-        //                                        YValue = _random.Next(10)});
-        //                     
-        clicksHistory = temp.ToList();
-
-        foreach(var x in clicksHistory){
-            test += "<br/>(" + x.XValue + " --- " + x.YValue + ")" + "\n";
+            var temp = clickStatsList.Items.Select(s => new ClickData{
+                                                    XValue = s.DateClicked,
+                                                    YValue = s.Count
+                                            });                 
+            clicksHistory = temp.ToList();
+            StateHasChanged();
         }
-
-        //StateHasChanged();
+        else{
+            test += "Is is not the URL you are looking for.";
+        }
     }
 
     protected override async Task OnParametersSetAsync()
@@ -86,16 +78,8 @@
     } 
 
 
-    protected async Task ChartLoad(ILoadedEventArgs Args){
-        //clicksHistory.Add(new ClickData{XValue = new DateTime(2005, 01, 01), YValue = _random.Next(100)});
-        //clicksHistory.Add(new ClickData{XValue = new DateTime(2006, 01, 01), YValue = _random.Next(100)});
-        //clicksHistory.Add(new ClickData{XValue = new DateTime(2007, 01, 01), YValue = _random.Next(100)});
-        //clicksHistory.Add(new ClickData{XValue = new DateTime(2008, 01, 01), YValue = _random.Next(100)});
-        //clicksHistory.Add(new ClickData{XValue = new DateTime(2009, 01, 01), YValue = _random.Next(100)});
-        //clicksHistory.Add(new ClickData{XValue = new DateTime(2010, 01, 01), YValue = _random.Next(100)});
-        //clicksHistory.Add(new ClickData{XValue = new DateTime(2011, 01, 01), YValue = _random.Next(100)});
-        //clicksHistory.Add(new ClickData{XValue = new DateTime(2012, 01, 01), YValue = _random.Next(100)});
-
-        await UpdateUIList();
+     protected override void OnInitialized()
+     {
+        UpdateUIList();
     }
 }

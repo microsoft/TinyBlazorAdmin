@@ -44,15 +44,12 @@ namespace TinyBlazorAdmin.Data
             var result = await _urlSecuredService.ArchiveShortUrl(archivedUrl);
             return result;
         }
-<<<<<<< HEAD
 
-        public async Task<ClickStatsEntityList> GetClickStats(string vanity)
+        public async Task<ClickDateList> GetClickStats(string vanity)
         {
             var result = await _urlSecuredService.GetClickStats(vanity);
             return result;
         }
 
-=======
->>>>>>> main
     }
 }
