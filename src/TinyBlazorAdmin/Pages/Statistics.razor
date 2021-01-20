@@ -16,7 +16,7 @@
     <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
     <ChartPrimaryXAxis  ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime"  
                         LabelFormat="y/M/d" 
-                        EdgeLabelPlacement="EdgeLabelPlacement.Shift">
+                        EdgeLabelPlacement="EdgeLabelPlacement.Shift" RangePadding="ChartRangePadding.Additional">
         <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
     </ChartPrimaryXAxis>
 
@@ -28,12 +28,13 @@
 
     <ChartSeriesCollection>
         <ChartSeries    DataSource="@clicksHistory" 
-                        Name="someData"
+                        Name="Click(s) by Day"
                         XName="XValue" 
                         YName="YValue" 
                         Width="2"
                         Opacity="1"
                         Type="ChartSeriesType.Line">
+            <ChartMarker Visible="true" Width="10" Height="10"></ChartMarker>
         </ChartSeries>
     </ChartSeriesCollection>
 </SfChart>
@@ -65,7 +66,7 @@
                                                     YValue = s.Count
                                             });                 
             clicksHistory = temp.ToList();
-            test += "clicks: " + clicksHistory.Count.ToString();
+            test += "day(s): " + clicksHistory.Count.ToString();
             StateHasChanged();
         }
         else{
