@@ -50,7 +50,7 @@ else
     <SfGrid DataSource="@gridData" AllowPaging="true" AllowSorting="true" AllowFiltering="true" >
         <GridPageSettings PageSize="15"></GridPageSettings>
         <GridColumns>
-            <GridColumn Width="70">
+            <GridColumn Width="80">
                 <Template>
                     @{
                         var url = (context as ShortUrlEntity);
@@ -64,6 +64,7 @@ else
                         var url = (context as ShortUrlEntity);
                         <a href="https//:@url.ShortUrl" target="blank">@url.RowKey</a>
                     }
+                    <p>@url.ShortUrl</p>
                 </Template>
             </GridColumn>
             <GridColumn Field=@nameof(ShortUrlEntity.Title) HeaderText="Title" ></GridColumn>
@@ -97,13 +98,9 @@ else
     <p>
         <!-- Add a new ShortUrl -->
         <button class="btn btn-primary"
-                @onclick="CreateShortUrl">!
-            Add New Url
+                @onclick="CreateShortUrl"> Add New Url
         </button>
     </p>
-
-
- 
    
 }
 

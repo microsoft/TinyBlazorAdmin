@@ -10,7 +10,7 @@
 @inject AzFuncClient azClient
 
 <h3>Statistics</h3>
-<a href="/UrlManager/"> &st;-- Back</a>
+<a href="/UrlManager/"> &lt;-- Back</a>
 <SfChart Title="Click Stats" DataSource="@clicksHistory" >
     <ChartEvents/>
     <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
@@ -65,6 +65,7 @@
                                                     YValue = s.Count
                                             });                 
             clicksHistory = temp.ToList();
+            test += "clicks: " + clicksHistory.Count.ToString();
             StateHasChanged();
         }
         else{
