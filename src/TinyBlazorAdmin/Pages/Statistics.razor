@@ -17,7 +17,7 @@
     <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
     <ChartPrimaryXAxis  ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime"  
                         LabelFormat="y/M/d" 
-                        EdgeLabelPlacement="EdgeLabelPlacement.Shift" RangePadding="ChartRangePadding.Auto">
+                        EdgeLabelPlacement="EdgeLabelPlacement.Shift">
         <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
     </ChartPrimaryXAxis>
 
@@ -34,7 +34,7 @@
                         YName="YValue" 
                         Width="2"
                         Opacity="1"
-                        Type="ChartSeriesType.Line">
+                        Type="ChartSeriesType.StepLine">
             <ChartMarker Visible="true" Width="10" Height="10"></ChartMarker>
         </ChartSeries>
     </ChartSeriesCollection>
@@ -59,9 +59,6 @@
 
     private async Task UpdateUIList()
     {
-
-        Console.WriteLine("fetching Stats");
-        Console.WriteLine("Vanity: " + Vanity);
         //if(Vanity.Length > 0){
             clickStatsList = await azClient.GetClickStats(Vanity);
 
@@ -70,7 +67,7 @@
                                                     YValue = s.Count
                                             });                 
             clicksHistory = temp.ToList();
-            test += "day(s): " + clicksHistory.Count.ToString();
+            test += "Day(s): " + clicksHistory.Count.ToString();
             StateHasChanged();
         //}
         //else{
