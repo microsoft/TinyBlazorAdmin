@@ -59,6 +59,9 @@
 
     private async Task UpdateUIList()
     {
+
+        Console.WriteLine("fetching Stats");
+        Console.WriteLine("Vanity: " + Vanity);
         //if(Vanity.Length > 0){
             clickStatsList = await azClient.GetClickStats(Vanity);
 
