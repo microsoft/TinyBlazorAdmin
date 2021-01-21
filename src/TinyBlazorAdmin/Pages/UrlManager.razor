@@ -64,7 +64,6 @@ else
                         var url = (context as ShortUrlEntity);
                         <a href="https://@url.ShortUrl" target="blank">@url.RowKey</a>
                     }
-                    <p>@url.ShortUrl</p>
                 </Template>
             </GridColumn>
             <GridColumn Field=@nameof(ShortUrlEntity.Title) HeaderText="Title" ></GridColumn>
@@ -74,6 +73,7 @@ else
                     @{
                         var url = (context as ShortUrlEntity);
                         <a href="/Statistics/@url.RowKey">@url.Clicks 📊</a>
+                        <button type="button" class="btn btn-outline-primary btn-sm" @onclick=@GotoStats(url.RowKey)>📊</button>
                     }
                 </Template>
             </GridColumn>
@@ -230,6 +230,11 @@ else
         ShowEditPopup = false;
         await azClient.UpdateShortUrl(editedUrl);
         await UpdateUIList();
+    }
+
+    private void GotoStats(string key){
+        string url = "/Statistics/" + key;
+        UriHelper.NavigateTo(url);
     }
 
     protected override async Task OnParametersSetAsync()

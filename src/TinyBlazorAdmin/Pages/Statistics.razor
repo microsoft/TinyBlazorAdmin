@@ -1,4 +1,5 @@
 ﻿
+@page "/statistics"
 @page "/statistics/{vanity}"
 
 @using Syncfusion.Blazor.Charts
@@ -10,13 +11,13 @@
 @inject AzFuncClient azClient
 
 <h3>Statistics</h3>
-<a href="/UrlManager/"> &lt;-- Back</a>
+<a href="/UrlManager/"> &lt;&lt; Back</a>
 <SfChart Title="Click Stats" DataSource="@clicksHistory" >
     <ChartEvents/>
     <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
     <ChartPrimaryXAxis  ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime"  
                         LabelFormat="y/M/d" 
-                        EdgeLabelPlacement="EdgeLabelPlacement.Shift" RangePadding="ChartRangePadding.Additional">
+                        EdgeLabelPlacement="EdgeLabelPlacement.Shift" RangePadding="ChartRangePadding.Auto">
         <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
     </ChartPrimaryXAxis>
 
@@ -58,7 +59,7 @@
 
     private async Task UpdateUIList()
     {
-        if(Vanity.Length > 0){
+        //if(Vanity.Length > 0){
             clickStatsList = await azClient.GetClickStats(Vanity);
 
             var temp = clickStatsList.Items.Select(s => new ClickData{
@@ -68,10 +69,10 @@
             clicksHistory = temp.ToList();
             test += "day(s): " + clicksHistory.Count.ToString();
             StateHasChanged();
-        }
-        else{
-            test += "Is is not the URL you are looking for.";
-        }
+        //}
+        //else{
+        //    test += "Is is not the URL you are looking for.";
+        //}
     }
 
     protected override async Task OnParametersSetAsync()
