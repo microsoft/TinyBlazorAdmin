@@ -10,7 +10,8 @@
 
 @inject AzFuncClient azClient
 
-<h3>Statistics</h3>
+<h1>Click Statistics</h1>
+<h3>@subTitle</h3>
 <a href="/UrlManager/"> &lt;&lt; Back</a>
 <SfChart Title="Click Stats" DataSource="@clicksHistory" >
     <ChartEvents/>
@@ -34,7 +35,7 @@
                         YName="YValue" 
                         Width="2"
                         Opacity="1"
-                        Type="ChartSeriesType.StepLine">
+                        Type="ChartSeriesType.Bar">
             <ChartMarker Visible="true" Width="10" Height="10"></ChartMarker>
         </ChartSeries>
     </ChartSeriesCollection>
@@ -44,6 +45,7 @@
 @code {
     [Parameter]
     public string Vanity { get; set; }
+    private string subTitle = "";
     private ClickDateList clickStatsList;
     private List<ClickData> clicksHistory = new List<ClickData>();
     
@@ -59,20 +61,18 @@
 
     private async Task UpdateUIList()
     {
-        //if(Vanity.Length > 0){
-            clickStatsList = await azClient.GetClickStats(Vanity);
+        subTitle = (Vanity.Length > 0)? $"Clicks for: {Vanity}": "All clicks";
+        
+        clickStatsList = await azClient.GetClickStats(Vanity);
 
-            var temp = clickStatsList.Items.Select(s => new ClickData{
-                                                    XValue = s.DateClicked,
-                                                    YValue = s.Count
-                                            });                 
-            clicksHistory = temp.ToList();
-            test += "Day(s): " + clicksHistory.Count.ToString();
-            StateHasChanged();
-        //}
-        //else{
-        //    test += "Is is not the URL you are looking for.";
-        //}
+        var temp = clickStatsList.Items.Select(s => new ClickData{
+                                                XValue = s.DateClicked,
+                                                YValue = s.Count
+                                        });                 
+        clicksHistory = temp.ToList();
+        test += "Day(s): " + clicksHistory.Count.ToString();
+        StateHasChanged();
+
     }
 
     protected override async Task OnParametersSetAsync()
