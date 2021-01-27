@@ -8,6 +8,8 @@
 
 @inject AzFuncClient azClient
 
+<h1>URL Manager</h1>
+<h3>Create, Edit, Achives your URLs</h3>
 
 @if (UrlList == null)
 {
@@ -19,36 +21,7 @@ else
             @onclick="CreateShortUrl">
         Add New Url
     </button>
-    @* <table class="table">
-        <thead>
-            <tr>
-                <th></th>
-                <th>Vanity</th>
-                <th>Title</th>
-                <th>Url</th>
-                <th>Clicks</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var url in UrlList.UrlList)
-            {
-                <tr>
-                    <td><button type="button" class="btn btn-outline-primary btn-sm" @onclick="@(() => CopyToClipboardAsync(url.ShortUrl))">Copy</button></td>
-                    <td><a href="@url.ShortUrl" target="blank">@url.RowKey</a></td>
-                    <td>
-                        <span>@url.Title</span>
-                    </td>
-                    <td>
-                        <span title="@url.Url">@url.GetDisplayableUrl()</span>
-                    </td>
-                    <td>@url.Clicks</td>
-                    <td><button type="button" class="btn btn-outline-primary btn-sm" @onclick="@(() => EditShortUrl(url))">Edit</button></td>
-                    <td><button type="button" class="btn btn-outline-primary btn-sm" @onclick="@(() => ArchiveShortUrl(url))">Archive</button></td>
-                </tr>
-            }
-        </tbody>
-    </table> *@
+
     <SfGrid DataSource="@gridData" AllowPaging="true" AllowSorting="true" AllowFiltering="true" >
         <GridPageSettings PageSize="15"></GridPageSettings>
         <GridColumns>
@@ -74,7 +47,7 @@ else
                 <Template>
                     @{
                         var url = (context as ShortUrlEntity);
-                        <a href="/Statistics/@url.RowKey">@url.Clicks 📊</a>
+                        @url.Clicks
                         <button type="button" class="btn btn-outline-primary btn-sm" @onclick="@(() => NavigateToStats(url.RowKey))">📊</button>
                     }
                 </Template>
