@@ -5,9 +5,17 @@
 
  Admin tools for [Azure Url Shortener](https://github.com/FBoucher/AzUrlShortener) using [Blazor Single Page Application (webassembly)](https://azure.microsoft.com/services/app-service/static/?WT.mc_id=dotnet-0000-frbouche).
 
-![TinyBlazorAdmin][TinyBlazorAdmin]
+The project is now at version 1 and ready to be used! ~~just getting started but should have a v1 ready in Summer 2020~~. It is using Azure Active Directory (AAD) as authentication for the user and to connect to the API (Azure Function).
 
-The project is now at version 1 and ready to be used! ~~just getting started but should have a v1 ready in Summer 2020~~. It will use Azure Active Directory (AAD) as authentication for the user and to connect to the API (Azure Function).
+![Tiny Blazor Admin home page][tinyBA_home]
+
+Once authenticated you can manage your URLs and see some statistics. Thanks to [Syncfusion](https://www.syncfusion.com/blazor-components) for the community licences. Everyone can use Tiny Blazor Admin with that great look!
+
+![Tiny Blazor Admin URLs manager page][inyBA_urls]
+
+![Tiny Blazor Admin Statistics page][inyBA_stats]
+
+
 
 # Deployment
 
@@ -23,7 +31,9 @@ To see the current work in progress: [GLO boards](https://app.gitkraken.com/glo/
 
 
 [TinyBlazorAdmin]: medias/TinyBlazorAdmin.png
-
+[tinyBA_home]: medias/tinyBA_home.png
+[inyBA_stats]: medias/inyBA_stats.png
+[inyBA_urls]: medias/inyBA_urls.png
 
 ## Contributors ✨
 
