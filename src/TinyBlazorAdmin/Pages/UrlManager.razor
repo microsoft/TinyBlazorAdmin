@@ -48,8 +48,8 @@ else
                     <Template>
                         @{
                             var url = (context as ShortUrlEntity);
-                            @url.Clicks 
-                            &nbsp;&nbsp;<button type="button" class="btn btn-outline-primary btn-sm" @onclick="@(() => NavigateToStats(url.RowKey))">📊</button>
+                            <span>@url.Clicks</span>   
+                            <button type="button" class="btn btn-outline-primary btn-sm" @onclick="@(() => NavigateToStats(url.RowKey))">📊</button>
                         }
                     </Template>
                 </GridColumn>
