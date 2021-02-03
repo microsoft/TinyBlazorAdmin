@@ -5,6 +5,8 @@ using System.Net.Http.Json;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System;
+
 
 namespace TinyBlazorAdmin.Data
 {
@@ -44,7 +46,7 @@ namespace TinyBlazorAdmin.Data
         public async Task<ShortUrlList> GetUrlList()
         {
             string result = string.Empty;
-            var resultList = await _client.GetJsonAsync<ShortUrlList>($"/api/UrlList");
+            var resultList = await _client.GetFromJsonAsync<ShortUrlList>($"/api/UrlList");
             return resultList;
         }
 
@@ -76,6 +78,22 @@ namespace TinyBlazorAdmin.Data
 
             var resultList = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<ShortUrlEntity>(resultList);
+        }
+
+        public async Task<ClickDateList> GetClickStats(string vanity) {
+            try{
+            CancellationToken cancellationToken = new CancellationToken();
+
+            string result = string.Empty;
+            var response = await _client.PostAsJsonAsync($"/api/UrlClickStatsByDay", new { Vanity = vanity }, cancellationToken);
+            var resultList = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<ClickDateList>(resultList);;
+
+            }
+            catch(Exception ex){
+                var ttt = ex.Message;
+                return new ClickDateList();
+            }    
         }
     }
 }

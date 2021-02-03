@@ -181,3 +181,13 @@ app {
         display: block;
     }
 }
+
+
+.mainLogo{
+    width: 800px;
+    height: auto;
+    margin-left: auto;
+    position: absolute; 
+    bottom: 0px; 
+    right: 0px;
+}
