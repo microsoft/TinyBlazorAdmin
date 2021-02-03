@@ -20,12 +20,15 @@ namespace TinyBlazorAdmin.Data
         /// <param name="navigation"><see cref="NavigationManager"/> to navigate based on authentication.</param>
         public AzFuncAuthorizationMessageHandler(
             IConfiguration config,
-            IAccessTokenProvider provider, 
+            IAccessTokenProvider provider,
             NavigationManager navigation) : base(provider, navigation)
         {
             var section = config.GetSection(nameof(UrlShortenerSecuredService));
             Endpoint = section.GetValue<string>(nameof(Endpoint));
-            ConfigureHandler(new[] { Endpoint });
+            ConfigureHandler(
+                new[] { Endpoint },
+                new[] { string.Concat(Endpoint, "user_impersonation") }
+            );
         }
     }
 }

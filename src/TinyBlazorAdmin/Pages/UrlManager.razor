@@ -2,10 +2,14 @@
 @using TinyBlazorAdmin.Data
 @using Microsoft.AspNetCore.Authorization
 @inject IJSRuntime JSRuntime;
+@implements IDisposable
+@inject NavigationManager NavigationManager;
 @attribute [Authorize]
 
 @inject AzFuncClient azClient
 
+<h1>URL Manager</h1>
+<h3>Create, Edit, Achives your URLs</h3>
 
 @if (UrlList == null)
 {
@@ -17,43 +21,64 @@ else
             @onclick="CreateShortUrl">
         Add New Url
     </button>
-    <table class="table">
-        <thead>
-            <tr>
-                <th></th>
-                <th>Vanity</th>
-                <th>Title</th>
-                <th>Url</th>
-                <th>Clicks</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var url in UrlList.UrlList)
-            {
-                <tr>
-                    <td><button type="button" class="btn btn-outline-primary btn-sm" @onclick="@(() => CopyToClipboardAsync(url.ShortUrl))">Copy</button></td>
-                    <td><a href="@url.ShortUrl" target="blank">@url.RowKey</a></td>
-                    <td>
-                        <span>@url.Title</span>
-                    </td>
-                    <td>
-                        <span title="@url.Url">@url.GetDisplayableUrl()</span>
-                    </td>
-                    <td>@url.Clicks</td>
-                    <td><button type="button" class="btn btn-outline-primary btn-sm" @onclick="@(() => EditShortUrl(url))">Edit</button></td>
-                    <td><button type="button" class="btn btn-outline-primary btn-sm" @onclick="@(() => ArchiveShortUrl(url))">Archive</button></td>
-                </tr>
-            }
-        </tbody>
-    </table>
+
+    <div>
+        <SfGrid DataSource="@gridData" AllowPaging="true" AllowSorting="true" AllowFiltering="true" >
+            <GridPageSettings PageSize="15"></GridPageSettings>
+            <GridColumns>
+                <GridColumn Width="80">
+                    <Template>
+                        @{
+                            var url = (context as ShortUrlEntity);
+                            <button type="button" class="btn btn-outline-primary btn-sm" @onclick="@(() => CopyToClipboardAsync(url.ShortUrl))">Copy</button>
+                        }
+                    </Template>
+                </GridColumn>
+                <GridColumn HeaderText="Vanity">
+                    <Template>
+                        @{
+                            var url = (context as ShortUrlEntity);
+                            <a href="https://@url.ShortUrl" target="blank">@url.RowKey</a>
+                        }
+                    </Template>
+                </GridColumn>
+                <GridColumn Field=@nameof(ShortUrlEntity.Title) HeaderText="Title" ></GridColumn>
+                <GridColumn Field=@nameof(ShortUrlEntity.Url) HeaderText="Url" ></GridColumn>
+                <GridColumn Field=@nameof(ShortUrlEntity.Clicks) HeaderText="Clicks" >
+                    <Template>
+                        @{
+                            var url = (context as ShortUrlEntity);
+                            <span>@url.Clicks</span>   
+                            <button type="button" class="btn btn-outline-primary btn-sm" @onclick="@(() => NavigateToStats(url.RowKey))">📊</button>
+                        }
+                    </Template>
+                </GridColumn>
+                <GridColumn Width="70">
+                    <Template>
+                        @{
+                            var url = (context as ShortUrlEntity);
+                            <button type="button" class="btn btn-outline-primary btn-sm" @onclick="@(() => EditShortUrl(url))">Edit</button>
+                        }
+                    </Template>
+                </GridColumn>
+                <GridColumn Width="70">
+                    <Template>
+                        @{
+                            var url = (context as ShortUrlEntity);
+                            <button type="button" class="btn btn-outline-primary btn-sm" @onclick="@(() => ArchiveShortUrl(url))">Archive</button>
+                        }
+                    </Template>
+                </GridColumn>
+            </GridColumns>
+        </SfGrid>
+    </div>
     <p>
         <!-- Add a new ShortUrl -->
         <button class="btn btn-primary"
-                @onclick="CreateShortUrl">
-            Add New Url
+                @onclick="CreateShortUrl"> Add New Url
         </button>
     </p>
+   
 }
 
 @if (ShowCreatePopup)
@@ -145,7 +170,9 @@ else
         </div>
     </div>
 
-}
+
+
+} 
 
 @code
 {
@@ -154,57 +181,92 @@ else
     ShortUrlRequest shortUrlRequest = new ShortUrlRequest();
     ShortUrlEntity editedUrl;
     ShortUrlList UrlList;
+    public List<ShortUrlEntity> gridData { get; set; }
 
     void ClosePopup()
     {
         ShowCreatePopup = false;
         ShowEditPopup = false;
     }
+
+    private async Task UpdateUIList() {
+        UrlList = await azClient.GetUrlList();
+        gridData = UrlList.UrlList;
+        StateHasChanged();
+    }
+
     private async Task SaveShortUrl()
     {
         ShowCreatePopup = false;
         await azClient.CreateShortUrl(shortUrlRequest);
-        UrlList = await azClient.GetUrlList();
+        await UpdateUIList();
     }
 
     private async Task SaveUpdatedShortUrl()
     {
         ShowEditPopup = false;
         await azClient.UpdateShortUrl(editedUrl);
-        UrlList = await azClient.GetUrlList();
+        await UpdateUIList();
     }
+
+    private void NavigateToStats(string vanity){
+        NavigationManager.NavigateTo("/Statistics/" + vanity);
+    }
+
     protected override async Task OnParametersSetAsync()
     {
-        UrlList = await azClient.GetUrlList();
+        await UpdateUIList();
+
+        foreach (var u in UrlList.UrlList){
+            var temp = u.ShortUrl;
+        }
     }
 
-    [Authorize(Roles = "admin")]
-    void CreateShortUrl()
+    protected override void OnInitialized()
     {
-        shortUrlRequest = new ShortUrlRequest();
-        ShowCreatePopup = true;
+        NavigationManager.LocationChanged += LocationChanged;
+        base.OnInitialized();
     }
 
-
-    [Authorize(Roles = "admin")]
-    void EditShortUrl(ShortUrlEntity urlEntity)
+    private void LocationChanged(object sender, LocationChangedEventArgs e)
     {
-        editedUrl = urlEntity;
-        ShowEditPopup = true;
+        string navigationMethod = e.IsNavigationIntercepted ? "HTML" : "code";
+        System.Diagnostics.Debug.WriteLine($"Notified of navigation via {navigationMethod} to {e.Location}");
     }
 
-    [Authorize(Roles = "admin")]
-    public async Task ArchiveShortUrl(ShortUrlEntity urlEntity)
+    void IDisposable.Dispose()
     {
-        await azClient.ArchiveShortUrl(urlEntity);
-        UrlList = await azClient.GetUrlList();
+        // Unsubscribe from the event when our component is disposed
+        NavigationManager.LocationChanged -= LocationChanged;
     }
 
+[Authorize(Roles = "admin")]
+void CreateShortUrl()
+{
+    shortUrlRequest = new ShortUrlRequest();
+    ShowCreatePopup = true;
+}
 
-    [Inject] public IJSRuntime JsRuntime { get; set; }
-    public async Task CopyToClipboardAsync(string url)
-    {
-        await JSRuntime.InvokeVoidAsync("clipboardCopy.copyText", url);
-    }
+
+[Authorize(Roles = "admin")]
+void EditShortUrl(ShortUrlEntity urlEntity)
+{
+    editedUrl = urlEntity;
+    ShowEditPopup = true;
+}
+
+[Authorize(Roles = "admin")]
+public async Task ArchiveShortUrl(ShortUrlEntity urlEntity)
+{
+    await azClient.ArchiveShortUrl(urlEntity);
+    await UpdateUIList();
+}
+
+
+[Inject] public IJSRuntime JsRuntime { get; set; }
+public async Task CopyToClipboardAsync(string url)
+{
+    await JSRuntime.InvokeVoidAsync("clipboardCopy.copyText", url);
+}
 
 }

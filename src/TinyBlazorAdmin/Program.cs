@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using TinyBlazorAdmin.Data;
+using Syncfusion.Blazor;
 
 namespace TinyBlazorAdmin
 {
@@ -25,9 +26,12 @@ namespace TinyBlazorAdmin
             builder.Services.AddMsalAuthentication(options =>
             {
                 options.ProviderOptions
-                .DefaultAccessTokenScopes.Add($"{functionEndpoint(builder)}user_impersonation");
+                .DefaultAccessTokenScopes.Add("user.read");
+                options.ProviderOptions
+                .AdditionalScopesToConsent.Add($"{functionEndpoint(builder)}user_impersonation");
                 builder.Configuration.Bind("AzureAd", options.ProviderOptions.Authentication);
             });
+
 
             // set up DI
             builder.Services.AddTransient<AzFuncAuthorizationMessageHandler>();
@@ -42,6 +46,10 @@ namespace TinyBlazorAdmin
 
             builder.Services.AddTransient<UrlShortenerSecuredService>();
             builder.Services.AddTransient<AzFuncClient>();
+
+            //Add SycnFusion Controls
+            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("MzgwNjM5QDMxMzgyZTMzMmUzMGhPbXloTFpmTVFQTEgrMUZ2NjZONkFEZmhLOG16RkhYSkYyZmZpOHRVUkU9"); 
+            builder.Services.AddSyncfusionBlazor();
 
             await builder.Build().RunAsync();
         }

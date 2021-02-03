@@ -7,7 +7,6 @@ namespace TinyBlazorAdmin.Data
     /// </summary>
     public class AzFuncClient
     {
-
         /// <summary>
         /// The <see cref="UrlShortenerSecuredService"/> to retrive credentials.
         /// </summary>
@@ -22,24 +21,33 @@ namespace TinyBlazorAdmin.Data
             _urlSecuredService = urlSecuredService;
         }
 
-
-        public async Task<ShortUrlList> GetUrlList(){
+        public async Task<ShortUrlList> GetUrlList()
+        {
             var result = await _urlSecuredService.GetUrlList();
             return result;
         }
 
-        public async Task<ShortUrlList> CreateShortUrl(ShortUrlRequest shortUrlRequest){
+        public async Task<ShortUrlList> CreateShortUrl(ShortUrlRequest shortUrlRequest)
+        {
             var result = await _urlSecuredService.CreateShortUrl(shortUrlRequest);
             return result;
         }
 
-        public async Task<ShortUrlEntity> UpdateShortUrl(ShortUrlEntity editedUrl){
+        public async Task<ShortUrlEntity> UpdateShortUrl(ShortUrlEntity editedUrl)
+        {
             var result = await _urlSecuredService.UpdateShortUrl(editedUrl);
             return result;
         }
 
-        public async Task<ShortUrlEntity> ArchiveShortUrl(ShortUrlEntity archivedUrl){
+        public async Task<ShortUrlEntity> ArchiveShortUrl(ShortUrlEntity archivedUrl)
+        {
             var result = await _urlSecuredService.ArchiveShortUrl(archivedUrl);
+            return result;
+        }
+
+        public async Task<ClickDateList> GetClickStats(string vanity)
+        {
+            var result = await _urlSecuredService.GetClickStats(vanity);
             return result;
         }
 
