@@ -34,6 +34,20 @@ else
                         }
                     </Template>
                 </GridColumn>
+                <GridColumn HeaderText="Schedule(s)">
+                    <Template>
+                        @{
+                            var url = (context as ShortUrlEntity);
+                            if(url.Schedules != null){
+                                <span>@url.Schedules.Length</span>
+                            }
+                            else
+                            {
+                                <span>0</span>
+                            };
+                        }
+                    </Template>
+                </GridColumn>
                 <GridColumn HeaderText="Vanity">
                     <Template>
                         @{
@@ -198,6 +212,17 @@ else
     private async Task SaveShortUrl()
     {
         ShowCreatePopup = false;
+
+        @* var sch1 = new Schedule(){
+            AlternativeUrl = "http://www.google.com",
+            Cron= "5 4 * * MON-FRI",
+            DurationMinutes = 30,
+            Start = DateTime.Now.AddDays(-1),
+            End = DateTime.Now.AddDays(1)
+        };
+
+        shortUrlRequest.Schedules.Append(sch1); *@
+
         await azClient.CreateShortUrl(shortUrlRequest);
         await UpdateUIList();
     }

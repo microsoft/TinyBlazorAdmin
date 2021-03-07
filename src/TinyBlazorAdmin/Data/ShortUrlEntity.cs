@@ -16,6 +16,8 @@ namespace TinyBlazorAdmin.Data
 
         public int Clicks { get; set; }
 
+        public Schedule[] Schedules { get; set; }
+
         public ShortUrlEntity()
         {
         }
