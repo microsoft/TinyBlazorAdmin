@@ -24,12 +24,12 @@ namespace TinyBlazorAdmin.Data
         [Required]
         public string Url { get; set; }
 
-        private List<Schedule> _schedules
+        private List<Schedule> _schedules;
 
         public List<Schedule> Schedules { 
             get{
                 if(_schedules == null){
-                    _schedules = new List<Schedule>()
+                    _schedules = new List<Schedule>();
                 }
                 return _schedules;
             } 
