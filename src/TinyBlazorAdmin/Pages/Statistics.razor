@@ -18,7 +18,7 @@
     <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
     <ChartPrimaryXAxis  ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime"  
                         LabelFormat="y/M/d" 
-                        EdgeLabelPlacement="EdgeLabelPlacement.Shift">
+                        EdgeLabelPlacement="EdgeLabelPlacement.Shift" RangePadding="ChartRangePadding.Auto">
         <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
     </ChartPrimaryXAxis>
 
@@ -35,7 +35,7 @@
                         YName="YValue" 
                         Width="2"
                         Opacity="1"
-                        Type="ChartSeriesType.Column">
+                        Type="ChartSeriesType.Line">
             <ChartMarker Visible="true" Width="10" Height="10"></ChartMarker>
         </ChartSeries>
     </ChartSeriesCollection>
@@ -48,10 +48,8 @@
     private string subTitle = "";
     private ClickDateList clickStatsList;
     private List<ClickData> clicksHistory = new List<ClickData>();
-    
-    private string test = "";
-
     private readonly Random _random = new Random(); 
+    private string test = "";
 
     public class ClickData
     {
@@ -61,7 +59,7 @@
 
     private async Task UpdateUIList()
     {
-        subTitle = (Vanity.Length > 0)? $"Clicks for: {Vanity}": "All clicks";
+        subTitle = (!String.IsNullOrEmpty(Vanity))? $"Clicks for: {Vanity}": "All clicks";
         
         clickStatsList = await azClient.GetClickStats(Vanity);
 
