@@ -1,6 +1,8 @@
 @page "/urlmanager"
 @using TinyBlazorAdmin.Data
 @using Microsoft.AspNetCore.Authorization
+@using Syncfusion.Blazor.Calendars
+@using Syncfusion.Blazor.Inputs
 @inject IJSRuntime JSRuntime;
 @implements IDisposable
 @inject NavigationManager NavigationManager;
@@ -23,7 +25,7 @@ else
     </button>
 
     <div>
-        <SfGrid DataSource="@gridData" AllowPaging="true" AllowSorting="true" AllowFiltering="true" >
+        <SfGrid  @ref="@grdUrls" id="grdUrls" DataSource="@gridData" AllowPaging="true" AllowSorting="true" AllowFiltering="true" >
             <GridPageSettings PageSize="15"></GridPageSettings>
             <GridColumns>
                 <GridColumn Width="80">
@@ -39,7 +41,7 @@ else
                         @{
                             var url = (context as ShortUrlEntity);
                             if(url.Schedules != null){
-                                <span>@url.Schedules.Length</span>
+                                <span>@url.Schedules.Count</span>
                             }
                             else
                             {
@@ -48,7 +50,7 @@ else
                         }
                     </Template>
                 </GridColumn>
-                <GridColumn HeaderText="Vanity">
+                <GridColumn Field=@nameof(ShortUrlEntity.RowKey) HeaderText="Vanity">
                     <Template>
                         @{
                             var url = (context as ShortUrlEntity);
@@ -110,23 +112,26 @@ else
                 <!-- Modal body -->
                 <div class="modal-body">
                         <EditForm Model="shortUrlRequest" OnValidSubmit="SaveShortUrl">
-                            <DataAnnotationsValidator />
-                            <div>
-                                <label for="title">Title</label>
-                                <InputText id="title" class="form-control" placeholder="Title or description for this URL" @bind-Value="shortUrlRequest.Title" />
-                                <ValidationMessage For="@(() => shortUrlRequest.Title)" />
+                            <DataAnnotationsValidator />                        
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
+                                    <SfTextBox id="title" Placeholder="Title" FloatLabelType="@FloatLabelType.Auto" @bind-Value="shortUrlRequest.Title"></SfTextBox>
+                                </div>
                             </div>
-                            <br />
-                            <div>
-                                <label for="url">The Url to redirect</label>
-                                <InputText id="url" class="form-control" placeholder="The Url to redirect" @bind-Value="shortUrlRequest.Url" />
-                                <ValidationMessage For="@(() => shortUrlRequest.Url)" />
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
+                                    <SfTextBox id="url" Placeholder="Url" FloatLabelType="@FloatLabelType.Auto" @bind-Value="shortUrlRequest.Url"></SfTextBox>
+                                    <ValidationMessage For="@(() => shortUrlRequest.Url)" />
+                                </div>
                             </div>
-                            <br />
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
+                                    <SfTextBox id="vanity" Placeholder="Vanity" FloatLabelType="@FloatLabelType.Auto" @bind-Value="shortUrlRequest.Vanity"></SfTextBox>
+                                </div>
+                            </div>
+
                             <div>
-                                <label for="vanity">Vanity</label>
-                                <InputText id="vanity" class="form-control" placeholder="Vanity or the 'End' part of the Url" @bind-Value="shortUrlRequest.Vanity" />
-                                <ValidationMessage For="@(() => shortUrlRequest.Vanity)" />
+                                <SchedulesComponent schedules="shortUrlRequest.Schedules"></SchedulesComponent>
                             </div>
                         </EditForm>
                 </div>
@@ -171,6 +176,9 @@ else
                             <InputText id="edit-url" class="form-control" placeholder="The Url to redirect" @bind-Value="editedUrl.Url" />
                             <ValidationMessage For="@(() => editedUrl.Url)" />
                         </div>
+                        <div>
+                            <SchedulesComponent schedules="editedUrl.Schedules"></SchedulesComponent>
+                        </div>
                     </EditForm>
                 </div>
 
@@ -184,8 +192,6 @@ else
         </div>
     </div>
 
-
-
 } 
 
 @code
@@ -195,6 +201,7 @@ else
     ShortUrlRequest shortUrlRequest = new ShortUrlRequest();
     ShortUrlEntity editedUrl;
     ShortUrlList UrlList;
+    SfGrid<ShortUrlEntity> grdUrls;
     public List<ShortUrlEntity> gridData { get; set; }
 
     void ClosePopup()
@@ -213,18 +220,10 @@ else
     {
         ShowCreatePopup = false;
 
-        @* var sch1 = new Schedule(){
-            AlternativeUrl = "http://www.google.com",
-            Cron= "5 4 * * MON-FRI",
-            DurationMinutes = 30,
-            Start = DateTime.Now.AddDays(-1),
-            End = DateTime.Now.AddDays(1)
-        };
-
-        shortUrlRequest.Schedules.Append(sch1); *@
-
         await azClient.CreateShortUrl(shortUrlRequest);
         await UpdateUIList();
+        grdUrls.ClearFiltering();
+        grdUrls.FilterByColumn("RowKey", "equal", shortUrlRequest.Vanity);
     }
 
     private async Task SaveUpdatedShortUrl()
