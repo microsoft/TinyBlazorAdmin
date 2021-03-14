@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 
 namespace TinyBlazorAdmin.Data
@@ -16,6 +17,20 @@ namespace TinyBlazorAdmin.Data
 
         public int Clicks { get; set; }
 
+        private List<Schedule> _schedules;
+
+        public List<Schedule> Schedules { 
+            get{
+                if(_schedules == null){
+                    _schedules = new List<Schedule>();
+                }
+                return _schedules;
+            } 
+            set{
+                _schedules = value;
+            } 
+        }
+
         public ShortUrlEntity()
         {
         }
@@ -30,12 +45,12 @@ namespace TinyBlazorAdmin.Data
             };
         }
 
-        public string GetDisplayableUrl()
+        public string GetDisplayableUrl(int max)
         {
             var length = Url.ToString().Length;
-            if (length >= 50)
+            if (length >= max)
             {
-                return string.Concat(Url.Substring(0, 49), "...");
+                return string.Concat(Url.Substring(0, max-1), "...");
             }
             return Url;
         }

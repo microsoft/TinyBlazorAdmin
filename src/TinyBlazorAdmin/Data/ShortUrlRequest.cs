@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace TinyBlazorAdmin.Data
@@ -22,5 +23,19 @@ namespace TinyBlazorAdmin.Data
 
         [Required]
         public string Url { get; set; }
+
+        private List<Schedule> _schedules;
+
+        public List<Schedule> Schedules { 
+            get{
+                if(_schedules == null){
+                    _schedules = new List<Schedule>();
+                }
+                return _schedules;
+            } 
+            set{
+                _schedules = value;
+            } 
+        }
     }
 }
