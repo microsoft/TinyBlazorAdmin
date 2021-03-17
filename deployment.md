@@ -50,7 +50,7 @@ From the Azure Portal (portal.azure.com), open the **Azure Active Directory** pa
 
 ![RegisterClientApp][RegisterClientApp]
 
-For the Redirect URL use **Web** (3) and enter the URL of the Azure Static WebApp deployed previously and add `/authentication/login-callback`. It should look lsomething like this:
+For the Redirect URL use **Single-page application (SPA)** (3) and enter the URL of the Azure Static WebApp deployed previously and add `/authentication/login-callback`. It should look lsomething like this:
 
 ```
 https://bolly-tiger-04a15beef.azurestaticapps.net/authentication/login-callback
