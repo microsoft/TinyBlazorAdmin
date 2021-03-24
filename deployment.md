@@ -133,7 +133,7 @@ Voila, the deployment is now completed. You can test it by creating a new short 
 
 ## Adding Custom Domain
 
-To add a custom domain to your AzUrlShortener & TinyBlazorAdmin, [follow these steps](https://github.com/FBoucher/AzUrlShortener/blob/main/post-deployment-configuration.md#add-a-custom-domain) from the the AzUrlShortener repo.
+To add a custom domain to your AzUrlShortener & TinyBlazorAdmin, [follow these steps](https://github.com/FBoucher/AzUrlShortener/blob/main/doc/post-deployment-configuration.md#add-a-custom-domain) from the the AzUrlShortener repo.
 
 
 [CreateBackend]: medias/CreateBackend.png
