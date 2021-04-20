@@ -6,7 +6,13 @@
 
 > To Copy a GitHub repository click on the use this template button on the top right of the screen.
 
-You will need to update the configuration (this document will explain when to do it and what to change), therefore it needs to be yours.
+![Click on the button Use this template][CreateACopy]
+
+Provide a name. It can be anything, it just need to be unique in your account (you can keep TinyBlazorAdmin if you want). Add a description it you want, and click the button **Create repository from template**. 
+
+![Give it a name description and click Create][NameYourCopy]
+
+After a few seconds, you should now be in your version of the TinyBlazorAdmin project.
 
 > Make sure you are currently in YOUR GitHub repository.
 >
@@ -155,7 +161,5 @@ To add a custom domain to your AzUrlShortener & TinyBlazorAdmin, [follow these s
 [azFunction_CORS]: medias/azFunction_CORS.png
 [RegisterClientApp]: medias/RegisterClientApp.jpg
 [NotFBoucherRepo]: medias/NotFBoucherRepo.png
-
-
-
- 
+[CreateACopy]: medias/CreateACopy.png
+[NameYourCopy]: medias/NameYourCopy.png
