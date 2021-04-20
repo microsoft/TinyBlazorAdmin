@@ -159,7 +159,7 @@ To add a custom domain to your AzUrlShortener & TinyBlazorAdmin, [follow these s
 [swa_create3]: medias/swa_create3.png
 [swa_URL]: medias/swa_URL.png
 [azFunction_CORS]: medias/azFunction_CORS.png
-[RegisterClientApp]: medias/RegisterClientApp.jpg
+[RegisterClientApp]: medias/RegisterClientApp.png
 [NotFBoucherRepo]: medias/NotFBoucherRepo.png
 [CreateACopy]: medias/CreateACopy.png
 [NameYourCopy]: medias/NameYourCopy.png
