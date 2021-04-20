@@ -57,7 +57,7 @@ We need a Service Principal that we will use to authenticate our user to Azure A
 
 From the Azure Portal (portal.azure.com), open the **Azure Active Directory** page. From the left option menu select **App registrations**, then create a new registration. Use a name that will help you to remember that it's for the TinyBlazorAdmin website (ex: TinyAdminApp) (1)
 
-![RegisterClientApp][RegisterClientApp]
+![Create a new registration][newRegistration]
 
 For the Redirect URL use **Single-page application (SPA)** (3) and enter the URL of the Azure Static WebApp deployed previously and add `/authentication/login-callback`. It should look lsomething like this:
 
@@ -68,9 +68,7 @@ https://bolly-tiger-04a15beef.azurestaticapps.net/authentication/login-callback
 
 **Note the ClientID and TenantID.**
 
-If you need to retrieve the ClientID and TenantID, they will be display at the top of the page once you select an app in the portal.
-
-![Create a new registration][newRegistration]
+You will need to retrieve the ClientID and TenantID, they will be display at the top of the page once you select an app in the portal.
 
 Go back in the Authentication and in the section Implicit grant check the checkbox `Access Token` and `ID Tokens`
 
