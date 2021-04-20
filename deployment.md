@@ -1,11 +1,10 @@
 # Deployment
 
-## 1- First thing first: Fork the repository
+## 1- First thing first: Copy the repository
 
-### 👉 **Fork this repository** into your own account
+### 👉 **Copy this repository** into your own account
 
-> To fork a GitHub repository click on the fork button on the top right of the screen. If you need more detail have a look to this GitHub doc: [Fork a repo
-](https://docs.github.com/en/free-pro-team@latest/github/getting-started-with-github/fork-a-repo).
+> To Copy a GitHub repository click on the use this template button on the top right of the screen.
 
 You will need to update the configuration (this document will explain when to do it and what to change), therefore it needs to be yours.
 
