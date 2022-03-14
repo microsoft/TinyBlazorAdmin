@@ -32,7 +32,7 @@ else
                     <Template>
                         @{
                             var url = (context as ShortUrlEntity);
-                            <button type="button" class="btn btn-outline-primary btn-sm" @onclick="@(() => CopyToClipboardAsync(url.ShortUrl))">Copy</button>
+                            <button type="button" class="btn btn-outline-primary btn-sm" @onclick="@(() => CopyToClipboardAsync("https://" + url.ShortUrl))">Copy</button>
                         }
                     </Template>
                 </GridColumn>
