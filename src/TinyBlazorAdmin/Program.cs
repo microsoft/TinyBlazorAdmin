@@ -22,13 +22,18 @@ namespace TinyBlazorAdmin
                     .GetSection(nameof(UrlShortenerSecuredService))
                     .GetValue<string>(nameof(AzFuncAuthorizationMessageHandler.Endpoint));
 
+            static string functionAppIdUri(WebAssemblyHostBuilder builder) =>
+                builder.Configuration
+                    .GetSection(nameof(UrlShortenerSecuredService))
+                    .GetValue<string>(nameof(AzFuncAuthorizationMessageHandler.AppIdUri));
+
             // sets up AAD + user_impersonation to access functions.
             builder.Services.AddMsalAuthentication(options =>
             {
                 options.ProviderOptions
                 .DefaultAccessTokenScopes.Add("user.read");
                 options.ProviderOptions
-                .AdditionalScopesToConsent.Add($"{functionEndpoint(builder)}user_impersonation");
+                .AdditionalScopesToConsent.Add($"{functionAppIdUri(builder)}user_impersonation");
                 builder.Configuration.Bind("AzureAd", options.ProviderOptions.Authentication);
             });
 

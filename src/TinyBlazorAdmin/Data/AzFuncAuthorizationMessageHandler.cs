@@ -11,6 +11,8 @@ namespace TinyBlazorAdmin.Data
     {
         public string Endpoint { get; set; }
 
+        public string AppIdUri { get; set; }
+
         /// <summary>
         /// Creates a new instance of the <see cref="AzFuncAuthorizationMessageHandler"/>
         /// class.
@@ -27,7 +29,7 @@ namespace TinyBlazorAdmin.Data
             Endpoint = section.GetValue<string>(nameof(Endpoint));
             ConfigureHandler(
                 new[] { Endpoint },
-                new[] { string.Concat(Endpoint, "user_impersonation") }
+                new[] { string.Concat(AppIdUri, "user_impersonation") }
             );
         }
     }
