@@ -1,5 +1,5 @@
 @inherits LayoutComponentBase
-@using TinyBlazorAdmin.Data
+@using Cloud5mins.AzShortener
 @using Syncfusion.Blazor.Buttons
 @using Syncfusion.Blazor.Navigations
 
@@ -20,7 +20,7 @@
                         @s.End.ToString("yyyy-MM-dd") 
                     </HeaderTemplate>
                     <ContentTemplate>
-                        <ScheduleComponent schedule=s></ScheduleComponent>
+                        <ScheduleComponent schedule=@s></ScheduleComponent>
                     </ContentTemplate>
                 </AccordionItem>
             } 
@@ -49,7 +49,6 @@
 
 
     private void AddScheduleClick(){
-
         schedules.Add(new Schedule());
         StateHasChanged();
     }

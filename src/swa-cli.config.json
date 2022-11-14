@@ -1,0 +1,14 @@
+{
+  "$schema": "https://aka.ms/azure/static-web-apps-cli/schema",
+  "configurations": {
+    "alpha-tiny-blazor-admin": {
+      "appLocation": "src/TinyBlazorAdmin",
+      "apiLocation": "src/AdminApi",
+      "outputLocation": "bin/wwwroot",
+      "appBuildCommand": "dotnet publish -c Release -o bin",
+      "apiBuildCommand": "dotnet publish -c Release",
+      "run": "dotnet watch run",
+      "appDevserverUrl": "http://localhost:8000"
+    }
+  }
+}

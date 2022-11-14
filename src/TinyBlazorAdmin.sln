@@ -1,25 +1,34 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
-VisualStudioVersion = 16.0.30128.74
+VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TinyBlazorAdmin", "TinyBlazorAdmin\TinyBlazorAdmin.csproj", "{19BA7B57-9A23-493A-BE6C-7B0664FA53D8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TinyBlazorAdmin", "TinyBlazorAdmin\TinyBlazorAdmin.csproj", "{2190B73D-DF38-45D8-88C1-6CDF49E68D68}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdminApi", "AdminApi\AdminApi.csproj", "{3663F7F4-2064-423E-9928-3F1D25E3F2D7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "azShortenerLib", "azShortenerLib\azShortenerLib.csproj", "{3E0E3C70-A56F-4565-ADE2-E3E585D1CBFD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
-	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{19BA7B57-9A23-493A-BE6C-7B0664FA53D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{19BA7B57-9A23-493A-BE6C-7B0664FA53D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{19BA7B57-9A23-493A-BE6C-7B0664FA53D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{19BA7B57-9A23-493A-BE6C-7B0664FA53D8}.Release|Any CPU.Build.0 = Release|Any CPU
-	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {A404BDC3-872E-4946-8814-86603AD419EC}
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2190B73D-DF38-45D8-88C1-6CDF49E68D68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2190B73D-DF38-45D8-88C1-6CDF49E68D68}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2190B73D-DF38-45D8-88C1-6CDF49E68D68}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2190B73D-DF38-45D8-88C1-6CDF49E68D68}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3663F7F4-2064-423E-9928-3F1D25E3F2D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3663F7F4-2064-423E-9928-3F1D25E3F2D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3663F7F4-2064-423E-9928-3F1D25E3F2D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3663F7F4-2064-423E-9928-3F1D25E3F2D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E0E3C70-A56F-4565-ADE2-E3E585D1CBFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E0E3C70-A56F-4565-ADE2-E3E585D1CBFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E0E3C70-A56F-4565-ADE2-E3E585D1CBFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E0E3C70-A56F-4565-ADE2-E3E585D1CBFD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

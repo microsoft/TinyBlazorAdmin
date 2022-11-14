@@ -1,13 +1,13 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace TinyBlazorAdmin.Data
+namespace Cloud5mins.AzShortener
 {
     public class ShortUrlRequest
     {
         private string _vanity;
 
-        public string Title { get; set; }
+        public string? Title { get; set; }
 
         public string Vanity
         {
