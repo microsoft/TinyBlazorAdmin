@@ -11,6 +11,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.6" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.6" PrivateAssets="all" />
     <PackageReference Include="Microsoft.Authentication.WebAssembly.Msal" Version="6.0.6" />
+    <PackageReference Include="Syncfusion.Blazor.Calendars" Version="20.1.0.51" />
     <PackageReference Include="Syncfusion.Blazor.Grid" Version="20.1.0.51" />
 </ItemGroup>
 
