@@ -158,5 +158,30 @@ namespace Cloud5mins.AzShortener
 
             return await SaveShortUrlEntity(originalUrl);
         }
+
+
+        public async Task<List<ClickStatsEntity>> GetAllStatsByVanity(string vanity)
+        {
+            var tblUrls = GetStatsTable();
+            TableContinuationToken token = null;
+            var lstShortUrl = new List<ClickStatsEntity>();
+            do
+            {
+                TableQuery<ClickStatsEntity> rangeQuery;
+
+                if(string.IsNullOrEmpty(vanity)){
+                    rangeQuery = new TableQuery<ClickStatsEntity>();
+                }
+                else{
+                    rangeQuery = new TableQuery<ClickStatsEntity>().Where(
+                    filter: TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, vanity));
+                }
+
+                var queryResult = await tblUrls.ExecuteQuerySegmentedAsync(rangeQuery, token);
+                lstShortUrl.AddRange(queryResult.Results as List<ClickStatsEntity>);
+                token = queryResult.ContinuationToken;
+            } while (token != null);
+            return lstShortUrl;
+        }
     }
 }
