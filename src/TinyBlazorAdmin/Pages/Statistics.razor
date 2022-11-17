@@ -2,6 +2,7 @@
 @page "/statistics/{vanity}"
 
 @using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.Spinner
 @using Cloud5mins.AzShortener
 @using Microsoft.AspNetCore.Authorization
 @using System.Collections.ObjectModel
@@ -13,50 +14,54 @@
 <h1>Click Statistics</h1>
 <h3>@subTitle</h3>
 <a href="/UrlManager/"> &lt;&lt; Back</a>
-@if (clicksHistory != null)
-{
-<SfChart Title="Click Stats" DataSource="@clicksHistory" >
+
+<div id="stats">
+@if(clicksHistory != null){
+<SfChart Title="Click Stats">
     <ChartEvents/>
-    <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+    <ChartArea><ChartAreaBorder Width="1"></ChartAreaBorder></ChartArea>
     <ChartPrimaryXAxis  ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime"  
                         LabelFormat="y/M/d" 
                         EdgeLabelPlacement="EdgeLabelPlacement.Shift" RangePadding="ChartRangePadding.Auto">
-        <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+        <ChartAxisMajorGridLines Width="1"></ChartAxisMajorGridLines>
     </ChartPrimaryXAxis>
 
     <ChartPrimaryYAxis  LabelFormat="{value}" >
-            <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
-            <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+            <ChartAxisLineStyle Width="1"></ChartAxisLineStyle>
+            <ChartAxisMajorTickLines Width="1"></ChartAxisMajorTickLines>
     </ChartPrimaryYAxis>
     <ChartTooltipSettings Enable="true"></ChartTooltipSettings>
-
+    
     <ChartSeriesCollection>
         <ChartSeries    DataSource="@clicksHistory" 
                         Name="Click(s) by Day"
-                        XName="XValue" 
-                        YName="YValue" 
-                        Width="2"
-                        Opacity="1"
+                        XName="DateClicked" 
+                        YName="Count" 
                         Type="ChartSeriesType.Line">
-            <ChartMarker Visible="true" Width="10" Height="10"></ChartMarker>
+            <ChartMarker Visible="true" ></ChartMarker>
         </ChartSeries>
     </ChartSeriesCollection>
+    
 </SfChart>
 }
-else
-{
-    <p>Chart Loading, it can take a few seconds</p>
+else{
+    <SfSpinner Size="40" Label="Counting all those clicks..." Type="SpinnerType.Material" Visible="@isLoading"></SfSpinner>
 }
-<p>@((MarkupString)test)</p>
+</div>
+<div>
+    <h3>@((MarkupString)dayCount)</h3>
+</div>
 
 @code {
     [Parameter]
     public string? vanity { get; set; }
+
+    private bool isLoading { get; set; } = true;
     private string subTitle = "";
     private ClickDateList clickStatsList;
-    private ObservableCollection<ClickData> clicksHistory;  // = new List<ClickData>();
+    private ObservableCollection<ClickDate> clicksHistory;
     private readonly Random _random = new Random(); 
-    private string test = "";
+    private string dayCount = string.Empty;
 
     public class ClickData
     {
@@ -64,7 +69,7 @@ else
         public int YValue;
     }
 
-    private async Task<ObservableCollection<ClickData>> UpdateUIList()
+    private async Task<ObservableCollection<ClickDate>> UpdateUIList()
     {
         subTitle = (!String.IsNullOrEmpty(vanity))? $"Clicks for: {vanity}": "All clicks";
         try{
@@ -72,15 +77,8 @@ else
             var response = await Http.PostAsJsonAsync("/api/UrlClickStatsByDay",  new UrlClickStatsRequest(vanity), cancellationToken);
             var jsonResult = await response.Content.ReadAsStringAsync();
             clickStatsList = JsonSerializer.Deserialize<ClickDateList>(jsonResult);
-            Console.WriteLine($"===>jsonResult: {jsonResult}");
-            var temp = clickStatsList.Items.Select(s => new ClickData{
-                                                    XValue = s.DateClicked,
-                                                    YValue = s.Count
-                                            });                 
-            //clicksHistory = temp.ToList();
-            //test += "Day(s): " + clicksHistory.Count.ToString();
-            StateHasChanged();
-            return new ObservableCollection<ClickData>(temp);
+            
+            return new ObservableCollection<ClickDate>(clickStatsList.Items);
         }
         catch (System.Exception ex)
         {
@@ -90,19 +88,12 @@ else
 
     }
 
-    protected override async Task OnParametersSetAsync()
-    {
-       clicksHistory = await UpdateUIList();
-       Console.WriteLine($"===> out of OnParameters");
-    } 
-
-
      protected override async void OnInitialized()
      {
         clicksHistory = await UpdateUIList();
-        test += "Day(s): " + clicksHistory.Count.ToString();
-        Console.WriteLine($"===> out of init");
+        this.isLoading = false;
+        StateHasChanged();
+        dayCount = "Day(s): " + clicksHistory.Count.ToString();
+        
     }
 }
-
-// TODO: fix asyn loading https://blazor.syncfusion.com/documentation/chart/working-with-data 

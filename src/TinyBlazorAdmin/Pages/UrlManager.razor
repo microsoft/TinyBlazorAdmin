@@ -7,10 +7,11 @@
 @using System.Text.Json
 @inject HttpClient Http
 @inject IJSRuntime JSRuntime;
+@inject NavigationManager NavigationManager;
 
 <PageTitle>Url Manager</PageTitle>
 
-<h1>Url Manager</h1>
+<h1>Urls Manager</h1>
 
 @if (urls.UrlList == null)
 {
@@ -26,7 +27,7 @@ else
     <SfGrid DataSource="@urls.UrlList" id="grdUrls" AllowPaging="true" AllowSorting="true" AllowFiltering="true">
         <GridPageSettings PageSize="15"></GridPageSettings>
         <GridColumns>
-            <GridColumn Width="80">
+            <GridColumn Width="70" AllowFiltering="false">
                 <Template>
                     @{
                     var url = (context as ShortUrlEntity);
@@ -35,7 +36,7 @@ else
                 }
             </Template>
         </GridColumn>
-        <GridColumn  Width="100" HeaderText="Schedule(s)">
+        <GridColumn  Width="110" HeaderText="Schedule(s)">
             <Template>
                 @{
                     var url = (context as ShortUrlEntity);
@@ -60,13 +61,13 @@ else
         </GridColumn>
         <GridColumn Field=@nameof(ShortUrlEntity.Title) HeaderText="Title"></GridColumn>
         <GridColumn Field=@nameof(ShortUrlEntity.Url) HeaderText="Url"></GridColumn>
-        <GridColumn Field=@nameof(ShortUrlEntity.Clicks) HeaderText="Clicks">
+        <GridColumn Width="100" TextAlign="TextAlign.Right" Field=@nameof(ShortUrlEntity.Clicks) HeaderText="Clicks">
             <Template>
                 @{
                     var url = (context as ShortUrlEntity);
                     <span>@url.Clicks</span>
-                    @* <button type="button" class="btn btn-outline-primary btn-sm" @onclick="@(() =>
-                        NavigateToStats(url.RowKey))">📊</button> *@
+                    <button type="button" class="btn btn-outline-primary btn-sm" @onclick="@(() =>
+                        NavigateToStats(url.RowKey))">📊</button>
                 }
             </Template>
         </GridColumn>
@@ -273,6 +274,10 @@ else
         ShowEditPopup = false;
         await Http.PostAsJsonAsync<ShortUrlEntity>("/api/UrlUpdate", editedUrl);
         await UpdateUIList();
+    }
+
+    private void NavigateToStats(string vanity){
+        NavigationManager.NavigateTo("/Statistics/" + vanity);
     }
 
 }
