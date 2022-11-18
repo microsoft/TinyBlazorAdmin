@@ -352,3 +352,6 @@ MigrationBackup/
 
 #Igniore VSCode User Setting
 **/.vscode/settings.json
+src/TinyBlazorAdmin/wwwroot/appsettings.json
+src/TinyBlazorAdmin/wwwroot/appsettings.Development.json
+src/TinyBlazorAdmin/wwwroot/appsettings.json

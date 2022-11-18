@@ -21,12 +21,12 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Linq;
 
 using Cloud5mins.AzShortener;
 using Cloud5mins.domain;
+using System.Security.Claims;
 
 
 //using Microsoft.AspNetCore.Http;
@@ -59,16 +59,22 @@ namespace Cloud5mins.Function
 
             try
             {
-                // var invalidRequest = Utility.CatchUnauthorize(principal, log);
+                var principal = StaticWebAppsAuth.GetClaimsPrincipal(req);
+                // var invalidRequest = ClaimsUtility.CatchUnauthorize(principal, _logger);
                 // if (invalidRequest != null)
                 // {
-                //     return invalidRequest;
+                //     return req.CreateResponse(HttpStatusCode.Unauthorized);;
                 // }
                 // else
                 // {
-                //    userId = principal.FindFirst(ClaimTypes.GivenName).Value;
-                //    _logger.LogInformation("Authenticated user {user}.", userId);
+                //     userId = principal.FindFirst(ClaimTypes.GivenName).Value;
+                //     _logger.LogInformation("Authenticated user {user}.", userId);
                 // }
+                userId = principal.FindFirst(ClaimTypes.NameIdentifier).Value;
+                if(String.IsNullOrEmpty(userId)){
+                    return req.CreateResponse(HttpStatusCode.Unauthorized);
+                }
+                _logger.LogInformation("Authenticated user {user}.", userId);
 
                 result.UrlList = await stgHelper.GetAllShortUrlEntities();
                 result.UrlList = result.UrlList.Where(p => !(p.IsArchived ?? false)).ToList();

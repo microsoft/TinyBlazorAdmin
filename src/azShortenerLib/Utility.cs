@@ -63,36 +63,5 @@ namespace Cloud5mins.AzShortener
             }
         }
 
-        // public static IActionResult CatchUnauthorize(ClaimsPrincipal principal, ILogger log)
-        // {
-        //     if (principal == null)
-        //     {
-        //         _logger.LogWarning("No principal.");
-        //         return new UnauthorizedResult();
-        //     }
-
-        //     if (principal.Identity == null)
-        //     {
-        //         _logger.LogWarning("No identity.");
-        //         return new UnauthorizedResult();
-        //     }
-
-        //     if (!principal.Identity.IsAuthenticated)
-        //     {
-        //         _logger.LogWarning("Request was not authenticated.");
-        //         return new UnauthorizedResult();
-        //     }
-
-        //     if (principal.FindFirst(ClaimTypes.GivenName) is null)
-        //     {
-        //         _logger.LogError("Claim not Found");
-        //         return new BadRequestObjectResult(new
-        //         {
-        //             message = "Claim not Found",
-        //             StatusCode = System.Net.HttpStatusCode.BadRequest
-        //         });
-        //     }
-        //     return null;
-        // }
     }
 }
