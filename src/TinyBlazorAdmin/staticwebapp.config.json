@@ -1,5 +1,32 @@
 {
     "navigationFallback": {
         "rewrite": "/index.html"
-    }
+    },
+    "routes": [
+        {
+          "route": "/urlmanager",
+          "allowedRoles": ["authenticated"]
+        },
+        {
+          "route": "/statistics/*",
+          "allowedRoles": ["authenticated"]
+        },
+        {
+          "route": "/api/*",
+          "methods": ["GET", "POST"],
+          "allowedRoles": ["authenticated"]
+        },
+        {
+          "route": "/login",
+          "rewrite": "/.auth/login/github"
+        },
+        {
+          "route": "/.auth/login/twitter",
+          "statusCode": 404
+        },
+        {
+          "route": "/logout",
+          "redirect": "/.auth/logout"
+        }
+      ]
 }

@@ -4,14 +4,16 @@
 @using Syncfusion.Blazor.Grids
 @using Syncfusion.Blazor.Inputs
 @using Cloud5mins.AzShortener
-@* @using System.Text.Json *@
 @inject HttpClient Http
 @inject IJSRuntime JSRuntime;
 @inject NavigationManager NavigationManager;
 
+@attribute [Authorize]
+
 <PageTitle>Url Manager</PageTitle>
 
 <h1>Urls Manager</h1>
+<h3>Create, Edit, Achives your URLs</h3>
 
 @if (urls.UrlList == null)
 {
