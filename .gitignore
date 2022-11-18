@@ -354,4 +354,4 @@ MigrationBackup/
 **/.vscode/settings.json
 src/TinyBlazorAdmin/wwwroot/appsettings.json
 src/TinyBlazorAdmin/wwwroot/appsettings.Development.json
-src/TinyBlazorAdmin/wwwroot/appsettings.json
+
