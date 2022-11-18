@@ -183,5 +183,14 @@ namespace Cloud5mins.AzShortener
             } while (token != null);
             return lstShortUrl;
         }
+
+
+        public async Task<ShortUrlEntity> ArchiveShortUrlEntity(ShortUrlEntity urlEntity)
+        {
+            ShortUrlEntity originalUrl = await GetShortUrlEntity(urlEntity);
+            originalUrl.IsArchived = true;
+
+            return await SaveShortUrlEntity(originalUrl);
+        }
     }
 }

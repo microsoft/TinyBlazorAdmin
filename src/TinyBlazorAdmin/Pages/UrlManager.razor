@@ -4,7 +4,7 @@
 @using Syncfusion.Blazor.Grids
 @using Syncfusion.Blazor.Inputs
 @using Cloud5mins.AzShortener
-@using System.Text.Json
+@* @using System.Text.Json *@
 @inject HttpClient Http
 @inject IJSRuntime JSRuntime;
 @inject NavigationManager NavigationManager;
@@ -19,24 +19,20 @@
 }
 else
 {
-
-    <button class="btn btn-primary" @onclick="CreateShortUrl">
-    Add New Url
-</button>
+    <button class="btn btn-primary" @onclick="CreateShortUrl">Add New Url</button>
 
     <SfGrid DataSource="@urls.UrlList" id="grdUrls" AllowPaging="true" AllowSorting="true" AllowFiltering="true">
         <GridPageSettings PageSize="15"></GridPageSettings>
         <GridColumns>
-            <GridColumn Width="70" AllowFiltering="false">
+            <GridColumn Width="70" AllowFiltering="false" >
                 <Template>
                     @{
                     var url = (context as ShortUrlEntity);
-                    <button type="button" class="btn btn-outline-primary btn-sm" @onclick="@(() =>
-                    CopyToClipboardAsync(url.ShortUrl))">Copy</button>
+                    <button type="button" class="btn btn-outline-primary btn-sm" @onclick="@(() => CopyToClipboardAsync(url.ShortUrl))">Copy</button>
                 }
             </Template>
         </GridColumn>
-        <GridColumn  Width="110" HeaderText="Schedule(s)">
+        <GridColumn  Width="105" HeaderText="Schedule(s)">
             <Template>
                 @{
                     var url = (context as ShortUrlEntity);
@@ -51,7 +47,7 @@ else
                 }
             </Template>
         </GridColumn>
-        <GridColumn Field=@nameof(ShortUrlEntity.RowKey) HeaderText="Vanity">
+        <GridColumn Width="250" Field=@nameof(ShortUrlEntity.RowKey) HeaderText="Vanity">
             <Template>
                 @{
                     var url = (context as ShortUrlEntity);
@@ -71,23 +67,15 @@ else
                 }
             </Template>
         </GridColumn>
-        <GridColumn Width="70">
+        <GridColumn Width="120">
             <Template>
             @{
             var url = (context as ShortUrlEntity);
             <button type="button" class="btn btn-outline-primary btn-sm" @onclick="@(() => EditShortUrl(url))">Edit</button>
+            <button type="button" class="btn btn-outline-primary btn-sm" @onclick="@(() => ArchiveShortUrl(url))">Archive</button>
             }
             </Template>
-         </GridColumn>
-        @* <GridColumn Width="70">
-            <Template>
-            @{
-            var url = (context as ShortUrlEntity);
-            <button type="button" class="btn btn-outline-primary btn-sm" @onclick="@(() =>
-            ArchiveShortUrl(url))">Archive</button>
-            }
-            </Template>
-            </GridColumn> *@
+            </GridColumn>
     </GridColumns>
 </SfGrid>
 }
@@ -202,7 +190,6 @@ else
     SfGrid<ShortUrlEntity> grdUrls;
     public List<ShortUrlEntity> gridData { get; set; }
 
-    
 
     protected override async Task OnInitializedAsync()
     {
@@ -278,6 +265,12 @@ else
 
     private void NavigateToStats(string vanity){
         NavigationManager.NavigateTo("/Statistics/" + vanity);
+    }
+
+    public async Task ArchiveShortUrl(ShortUrlEntity urlEntity)
+    {
+        await Http.PostAsJsonAsync<ShortUrlEntity>("/api/UrlArchive", urlEntity);
+        await UpdateUIList();
     }
 
 }
