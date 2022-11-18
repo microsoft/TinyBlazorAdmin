@@ -73,7 +73,7 @@ namespace Cloud5mins.Function
                 // else
                 // {
                 //     userId = principal.FindFirst(ClaimTypes.GivenName).Value;
-                //     log.LogInformation("Authenticated user {user}.", userId);
+                //     _logger.LogInformation("Authenticated user {user}.", userId);
                 // }
 
                 // Validation of the inputs
