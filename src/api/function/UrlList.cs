@@ -26,11 +26,6 @@ using System.Linq;
 
 using Cloud5mins.AzShortener;
 using Cloud5mins.domain;
-using System.Security.Claims;
-using System.Text.Json;
-
-
-//using Microsoft.AspNetCore.Http;
 
 namespace Cloud5mins.Function
 {
@@ -50,37 +45,26 @@ namespace Cloud5mins.Function
         public async Task<HttpResponseData> Run(
         [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequestData req, ExecutionContext context)
         {
-            _logger.LogInformation($"C# HTTP trigger function processed this request: {req}");
+            _logger.LogInformation($"Starting UrlList...");
 
             var result = new ListResponse();
             string userId = string.Empty;
             
-
             StorageTableHelper stgHelper = new StorageTableHelper(_adminApiSettings.UlsDataStorage);
 
             try
             {
-                //var principal = StaticWebAppsAuth.GetClaimsPrincipal(req);
-                //_logger.LogInformation($"---> principal {JsonSerializer.Serialize(principal)}.");
-                // var invalidRequest = ClaimsUtility.CatchUnauthorize(principal, _logger);
-                // if (invalidRequest != null)
+                // var invalidCode = ClaimsUtility.CatchUnauthorize(req, _logger);
+                // if (invalidCode != HttpStatusCode.Continue)
                 // {
-                //     return req.CreateResponse(HttpStatusCode.Unauthorized);;
+                //     return req.CreateResponse(invalidCode);
+                //     // return new UnauthorizedResult();
                 // }
-                // else
-                // {
-                //     userId = principal.FindFirst(ClaimTypes.GivenName).Value;
-                //     _logger.LogInformation("Authenticated user {user}.", userId);
-                // }
-                // userId = principal.FindFirst(ClaimTypes.NameIdentifier).Value;
-                // if(String.IsNullOrEmpty(userId)){
-                //     return req.CreateResponse(HttpStatusCode.Unauthorized);
-                // }
-                // _logger.LogInformation("Authenticated user {user}.", userId);
 
                 result.UrlList = await stgHelper.GetAllShortUrlEntities();
                 result.UrlList = result.UrlList.Where(p => !(p.IsArchived ?? false)).ToList();
                 var host = string.IsNullOrEmpty(_adminApiSettings.customDomain) ? req.Url.Host: _adminApiSettings.customDomain;
+                // var host = string.IsNullOrEmpty(_adminApiSettings.customDomain) ? req.Host.Host: _adminApiSettings.customDomain;
                 foreach (ShortUrlEntity url in result.UrlList)
                 {
                     url.ShortUrl = Utility.GetShortUrl(host, url.RowKey);
@@ -92,12 +76,17 @@ namespace Cloud5mins.Function
                 var badres = req.CreateResponse(HttpStatusCode.BadRequest);
                 await badres.WriteAsJsonAsync(new {Message = ex.Message });
                 return badres;
+                // return new BadRequestObjectResult(new
+                // {
+                //     message = ex.Message,
+                //     StatusCode =  HttpStatusCode.BadRequest
+                // });
             }
 
             var response = req.CreateResponse(HttpStatusCode.OK);
             await response.WriteAsJsonAsync(result);
-
             return response;
+            // return new OkObjectResult(result);
         }
     }
 }

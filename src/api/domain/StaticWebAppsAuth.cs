@@ -6,6 +6,7 @@ using System.Text;
 using System.Text.Json;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Azure.Functions.Worker.Http;
+using Microsoft.Extensions.Logging;
 
 namespace Cloud5mins.domain
 {
@@ -19,15 +20,17 @@ namespace Cloud5mins.domain
             public IEnumerable<string> UserRoles { get; set; }
         }
 
-        public static ClaimsPrincipal GetClaimsPrincipal(HttpRequestData req)
+        public static ClaimsPrincipal GetClaimsPrincipal(HttpRequestData req, ILogger log)
         {
             var principal = new ClientPrincipal();
 
             if (req.Headers.TryGetValues("x-ms-client-principal", out var header))
             {
                 var data = header.First<string>();
+                log.LogWarning($"===> data: {data}");
                 var decoded = Convert.FromBase64String(data);
                 var json = Encoding.UTF8.GetString(decoded);
+                log.LogWarning($"===> json: {json}");
                 principal = JsonSerializer.Deserialize<ClientPrincipal>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
             }
 

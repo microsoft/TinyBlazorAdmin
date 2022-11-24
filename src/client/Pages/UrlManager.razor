@@ -4,6 +4,7 @@
 @using Syncfusion.Blazor.Grids
 @using Syncfusion.Blazor.Inputs
 @using Cloud5mins.AzShortener
+@using System.Net
 @inject HttpClient Http
 @inject IJSRuntime JSRuntime;
 @inject NavigationManager NavigationManager;
@@ -202,7 +203,19 @@ else
     {
         try
         {
-            urls = await Http.GetFromJsonAsync<ListResponse>("/api/UrlList") ?? new ListResponse();
+            //urls = await Http.GetFromJsonAsync<ListResponse>("/api/UrlList") ?? new ListResponse();
+            using var reponse = await Http.GetAsync("/api/UrlList");
+            if(reponse.IsSuccessStatusCode)
+                urls = await reponse.Content.ReadFromJsonAsync<ListResponse>() ?? new ListResponse();
+            else{
+                switch (reponse.StatusCode)
+                {
+                    case HttpStatusCode.Unauthorized: NavigationManager.NavigateTo("/unauthorized"); 
+                        break;
+                    default: NavigationManager.NavigateTo("/404"); 
+                        break;
+                }
+            }
         }
         catch (Exception ex)
         {

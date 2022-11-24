@@ -1,4 +1,3 @@
-@inject NavigationManager NavigationManager
 
 <section>
     <div class="container">
@@ -10,18 +9,10 @@
                     <div class="error-details">
                         Sorry, an error has occured, Requested page not found!
                     </div>
-                    <button class="btn btn-link" @onclick="GoHome">Return Home</button>
+                    <a class="btn btn-link" href="/">Return Home</a>>
                 </div>
             </div>
         </div>
     </div>
     
 </section>
-
-@code {
-
-    void GoHome()
-    {
-        NavigationManager.NavigateTo("/");
-    }
-}

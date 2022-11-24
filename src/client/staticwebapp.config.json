@@ -9,7 +9,7 @@
         },
         {
           "route": "/statistics*",
-          "allowedRoles": ["authenticated"]
+          "allowedRoles": ["admin"]
         },
         {
           "route": "/api/*",
@@ -27,6 +27,12 @@
         {
           "route": "/logout*",
           "redirect": "/.auth/logout"
+        }
+        ,
+        {
+          "route": "/unauthorized*",
+          "redirect": "/unauthorized",
+          "statusCode": 401
         }
       ],
       "responseOverrides": {

@@ -1,5 +1,10 @@
+using System.Net;
+using System.Net.Http;
 using System.Security.Claims;
+using System.Text.Json;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
 
 namespace Cloud5mins.domain
@@ -7,36 +12,29 @@ namespace Cloud5mins.domain
     public static class ClaimsUtility
     {
 
-        public static IActionResult CatchUnauthorize(ClaimsPrincipal principal, ILogger log)
+        public static HttpStatusCode CatchUnauthorize(HttpRequestData req, ILogger log)
         {
+            var tempReq = JsonSerializer.Serialize(req);
+            log.LogWarning($"===> ReqData: {tempReq}");
+
+            ClaimsPrincipal principal = StaticWebAppsAuth.GetClaimsPrincipal(req,log);
+            var temp = JsonSerializer.Serialize(principal);
+            log.LogWarning($"===> principal: {temp}");
+            
+
             if (principal == null)
             {
                 log.LogWarning("No principal.");
-                return new UnauthorizedResult();
+                return HttpStatusCode.Unauthorized;
             }
 
-            if (principal.Identity == null)
+            if(!principal.IsInRole("admin"))
             {
-                log.LogWarning("No identity.");
-                return new UnauthorizedResult();
+                log.LogInformation("Not an admin");
+                return HttpStatusCode.Unauthorized;
+                
             }
-
-            if (!principal.Identity.IsAuthenticated)
-            {
-                log.LogWarning("Request was not authenticated.");
-                return new UnauthorizedResult();
-            }
-
-            if (principal.FindFirst(ClaimTypes.GivenName) is null)
-            {
-                log.LogError("Claim not Found");
-                return new BadRequestObjectResult(new
-                {
-                    message = "Claim not Found",
-                    StatusCode = System.Net.HttpStatusCode.BadRequest
-                });
-            }
-            return null;
+            return HttpStatusCode.Continue;
         }
     }
 }

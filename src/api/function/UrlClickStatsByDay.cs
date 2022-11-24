@@ -60,15 +60,10 @@ namespace Cloud5mins.Function
             UrlClickStatsRequest input;
             var result = new ClickDateList();
 
-            // var invalidRequest = Utility.CatchUnauthorize(principal, log);
-            // if (invalidRequest != null)
+            // var invalidCode = ClaimsUtility.CatchUnauthorize(req, _logger);
+            // if (invalidCode != HttpStatusCode.Continue)
             // {
-            //     return invalidRequest;
-            // }
-            // else
-            // {
-            //     userId = principal.FindFirst(ClaimTypes.NameIdentifier).Value;
-            //     _logger.LogInformation("Authenticated user {user}.", userId);
+            //     return req.CreateResponse(invalidCode);
             // }
 
             // Validation of the inputs
