@@ -6,8 +6,8 @@
 @using Cloud5mins.AzShortener
 @using System.Net
 @inject HttpClient Http
-@inject IJSRuntime JSRuntime;
-@inject NavigationManager NavigationManager;
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
 
 @* @attribute [Authorize] *@
 
@@ -204,11 +204,11 @@ else
         try
         {
             //urls = await Http.GetFromJsonAsync<ListResponse>("/api/UrlList") ?? new ListResponse();
-            using var reponse = await Http.GetAsync("/api/UrlList");
-            if(reponse.IsSuccessStatusCode)
-                urls = await reponse.Content.ReadFromJsonAsync<ListResponse>() ?? new ListResponse();
+            using var response = await Http.GetAsync("/api/UrlList");
+            if(response.IsSuccessStatusCode)
+                urls = await response.Content.ReadFromJsonAsync<ListResponse>() ?? new ListResponse();
             else{
-                switch (reponse.StatusCode)
+                switch (response.StatusCode)
                 {
                     case HttpStatusCode.Unauthorized: NavigationManager.NavigateTo("/unauthorized"); 
                         break;

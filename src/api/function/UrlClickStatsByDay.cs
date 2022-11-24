@@ -54,17 +54,17 @@ namespace Cloud5mins.Function
         [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = null)] HttpRequestData req,
         ExecutionContext context)
         {
-            _logger.LogInformation($"C# HTTP trigger function processed this request: {req}");
+            _logger.LogInformation($"HTTP trigger: UrlClickStatsByDay");
 
             string userId = string.Empty;
             UrlClickStatsRequest input;
             var result = new ClickDateList();
 
-            // var invalidCode = ClaimsUtility.CatchUnauthorize(req, _logger);
-            // if (invalidCode != HttpStatusCode.Continue)
-            // {
-            //     return req.CreateResponse(invalidCode);
-            // }
+            var invalidCode = ClaimsUtility.CatchUnauthorize(req, _logger);
+            if (invalidCode != HttpStatusCode.Continue)
+            {
+                return req.CreateResponse(invalidCode);
+            }
 
             // Validation of the inputs
             if (req == null)
