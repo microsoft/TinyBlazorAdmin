@@ -28,6 +28,11 @@
           "route": "/logout*",
           "redirect": "/.auth/logout"
         }
+        ,
+        {
+          "route": "/unauthorized*",
+          "redirect": "/unauthorized"
+        }
       ],
       "responseOverrides": {
         "401": {
