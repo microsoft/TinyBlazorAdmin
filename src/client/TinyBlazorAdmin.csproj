@@ -15,7 +15,7 @@
     <PackageReference Include="Syncfusion.Blazor.Charts" Version="20.1.0.51" />
     <PackageReference Include="Syncfusion.Blazor.Grid" Version="20.1.0.51" />
     <PackageReference Include="Syncfusion.Blazor.Spinner" Version="20.1.0.51" />
-    
+    <PackageReference Include="AnthonyChu.AzureStaticWebApps.Blazor.Authentication" Version="0.0.2-preview" />
 </ItemGroup>
 
   <ItemGroup>

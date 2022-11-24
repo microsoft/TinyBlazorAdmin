@@ -60,8 +60,8 @@ namespace Cloud5mins.Function
 
             try
             {
-                var principal = StaticWebAppsAuth.GetClaimsPrincipal(req);
-                _logger.LogInformation($"---> principal {JsonSerializer.Serialize(principal)}.");
+                //var principal = StaticWebAppsAuth.GetClaimsPrincipal(req);
+                //_logger.LogInformation($"---> principal {JsonSerializer.Serialize(principal)}.");
                 // var invalidRequest = ClaimsUtility.CatchUnauthorize(principal, _logger);
                 // if (invalidRequest != null)
                 // {
