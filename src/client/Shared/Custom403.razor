@@ -1,6 +1,5 @@
-@using System.Text.Json
-@inject HttpClient Http
-@inject NavigationManager NavigationManager
+@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 
 <section>
     <div class="container">
@@ -9,18 +8,18 @@
                 <div class="error-template">
                     <h1>Oops!</h1>
                     <h2>403 Forbidden</h2>
-                    @if(IsAuthenticated)
-                    {
+                    <AuthorizeView>
+                      <Authorized>
                         <div class="error-details">
-                            Sorry, you are not authorized to access this resource.
+                                Sorry, you are not authorized to access this resource.
                         </div>
-                    }
-                    else
-                    {
-                        <div class="error-details">
-                            Sorry, please get authenticated.
-                        </div>
-                    }
+                      </Authorized>  
+                      <NotAuthorized>
+                            <div class="error-details">
+                                Sorry, please get authenticated.
+                            </div>
+                      </NotAuthorized>  
+                    </AuthorizeView>
                     <button class="btn btn-link" @onclick="GoHome">Return Home</button>
                 </div>
             </div>
@@ -28,52 +27,3 @@
     </div>
     
 </section>
-
-@code {
-
-    private bool IsAuthenticated = false;
-
-    protected override async Task OnInitializedAsync(){
-        var info = await GetUserInfo();
-        try{
-            if(info != null){
-                if(!String.IsNullOrEmpty(info.clientPrincipal.IdentityProvider)){
-                    var customRoleName = System.Environment.GetEnvironmentVariable("customRole", EnvironmentVariableTarget.Process);
-                    Console.WriteLine($"---> customRoleName: {customRoleName}");
-                    IsAuthenticated = true;
-                }
-            }
-        }
-        catch(Exception ex)
-        {
-            Console.WriteLine(ex.Message);
-        }
-    }
-
-    void GoHome()
-    {
-        NavigationManager.NavigateTo("/");
-    }
-
-    private async Task<UserInfo> GetUserInfo(){
-        using HttpResponseMessage response = await Http.GetAsync("/.auth/me");
-        string jsonString = await response.Content.ReadAsStringAsync();
-        if(String.IsNullOrEmpty(jsonString))
-           return null;
-
-        var userInfo = JsonSerializer.Deserialize<UserInfo>(jsonString, new JsonSerializerOptions {PropertyNameCaseInsensitive = true}); 
-        return userInfo;
-    }
-
-    private class ClientPrincipal
-    {
-        public string IdentityProvider { get; set; }
-        public string UserId { get; set; }
-        public string UserDetails { get; set; }
-        public IEnumerable<string> UserRoles { get; set; }
-    }
-
-    private class UserInfo{
-        public ClientPrincipal clientPrincipal { get; set; }
-    }
-}
