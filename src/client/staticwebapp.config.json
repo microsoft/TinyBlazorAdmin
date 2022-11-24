@@ -1,0 +1,44 @@
+{
+    "navigationFallback": {
+        "rewrite": "/index.html"
+    },
+    "auth": {
+      "identityProviders": {
+        "azureActiveDirectory": {
+          "userDetailsClaim": "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name",
+          "registration": {
+            "openIdIssuer": "https://login.microsoftonline.com/206bad4c-d071-4c91-9181-ef7047e6590b",
+            "clientIdSettingName": "AZURE_CLIENT_ID",
+            "clientSecretSettingName": "AZURE_CLIENT_SECRET"
+          }
+        }
+      }
+    },
+    "routes": [
+        {
+          "route": "/urlmanager",
+          "allowedRoles": ["authenticated"]
+        },
+        {
+          "route": "/statistics/*",
+          "allowedRoles": ["authenticated"]
+        },
+        {
+          "route": "/api/*",
+          "methods": ["GET", "POST"],
+          "allowedRoles": ["authenticated"]
+        },
+        {
+          "route": "/login",
+          "rewrite": "/.auth/login/github"
+        },
+        {
+          "route": "/.auth/login/twitter",
+          "statusCode": 404
+        },
+        {
+          "route": "/logout",
+          "redirect": "/.auth/logout"
+        }
+      ]
+}
