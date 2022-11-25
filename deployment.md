@@ -53,15 +53,19 @@ From the [portal](https://portal.azure.com/), open your static web app and selec
 
 This will create an invite that you can share with the recipient. Once the invite is accepted, the name should be visible in the list.
 
-## Connect the Data
+## Configuration 
 
 Let's add the connection to the Azure Storage table. In your AzUrlShortener resource group us look for the Azure storage starting by "urldata" and grab the connectionstring.
 
 ![get connectionstring][grab_connstring]
 
-Now that we have the connectionstring, add it the configuration of the Azure static web App under the name `UlsDataStorage`.
+Now that we have the connectionstring, add it the application setting of the Azure static web App under the name `UlsDataStorage`.
 
-![add_config][add_config]
+![add UlsDataStorage application setting][add_config]
+
+The TinyBlazorAdmin doesn't need to have a custom domain name. It's just a website that will be used internally. So we can use the default URL provided by Azure Static Web App. However, to let it know what is the domain add another application setting named `customDomain`. This will be used in the copy button to quickly copy the short URL to the clipboard.
+
+![add customDomain application setting][add_custom_domain]
 
 ## Try it!
 
@@ -77,3 +81,4 @@ Voila, the deployment is now completed. You can test it by creating a new short 
 [NotFBoucherRepo]: medias/NotFBoucherRepo.png
 [CreateACopy]: medias/CreateACopy.png
 [NameYourCopy]: medias/NameYourCopy.png
+[add_custom_domain]: medias/add_custom_domain.png
