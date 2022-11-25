@@ -11,17 +11,26 @@
     <nav class="flex-column">
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> Home
+                <span class="oi oi-home" aria-hidden="true"></span>Home
             </NavLink>
         </div>
+        <AuthorizeView Roles="admin">
+                <Authorized>
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="urlmanager">
+                        <span class="oi oi-list-rich" aria-hidden="true"></span>Url Manager
+                    </NavLink>
+                </div>
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="statistics">
+                        <span class="oi oi-bar-chart" aria-hidden="true"></span>Click Statistics
+                    </NavLink>
+                </div>
+            </Authorized>
+        </AuthorizeView>
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="urlmanager">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Url Manager
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="statistics">
-                <span class="oi oi-bar-chart" aria-hidden="true"></span>Click Statistics
+            <NavLink class="nav-link" href="help">
+                <span class="oi oi-question-mark" aria-hidden="true"></span>Help
             </NavLink>
         </div>
     </nav>

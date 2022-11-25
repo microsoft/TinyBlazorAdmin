@@ -10,7 +10,7 @@
 @inject IJSRuntime JSRuntime
 @inject NavigationManager NavigationManager
 
-@* @attribute [Authorize] *@
+@attribute [Authorize(Roles = "admin")]
 
 <PageTitle>Url Manager</PageTitle>
 
@@ -197,10 +197,10 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        var info = await GetUserInfo();
+        @* var info = await GetUserInfo();
         if(info != null || info.clientPrincipal != null || !info.clientPrincipal.UserRoles.Contains("admin")){
             NavigationManager.NavigateTo("/unauthorized");
-        }
+        } *@
         await RefreshGrid();
     }
 
@@ -294,7 +294,7 @@ else
     }
 
 
-    private async Task<UserInfo> GetUserInfo(){
+    @* private async Task<UserInfo> GetUserInfo(){
         using HttpResponseMessage response = await Http.GetAsync("/.auth/me");
         string jsonString = await response.Content.ReadAsStringAsync();
         if(jsonString == @"{""clientPrincipal"":null}")
@@ -313,5 +313,5 @@ else
 
     private class UserInfo{
         public ClientPrincipal clientPrincipal { get; set; }
-    }
+    } *@
 }
