@@ -101,10 +101,14 @@ else{
 
      protected override async void OnInitialized()
      {
+
+        
+
         clicksHistory = await UpdateUIList();
         this.isLoading = false;
         StateHasChanged();
-        dayCount = "Day(s): " + clicksHistory.Count.ToString();
+        if(clicksHistory != null)
+            dayCount = "Day(s): " + clicksHistory.Count.ToString();
         
     }
 }

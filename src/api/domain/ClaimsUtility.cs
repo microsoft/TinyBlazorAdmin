@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Security.Claims;
@@ -16,26 +17,27 @@ namespace Cloud5mins.domain
         public static HttpStatusCode CatchUnauthorize(HttpRequestData req, ILogger log)
         {
             try{
-                var tempReq = JsonSerializer.Serialize<HttpRequestData>(req);
-                log.LogWarning($"===> ReqData: {tempReq}");
-
-                ClaimsPrincipal principal = StaticWebAppsAuth.GetClaimsPrincipal(req,log);
-                var temp = JsonSerializer.Serialize(principal);
-                log.LogWarning($"===> principal: {temp}");
                 
-
+                ClaimsPrincipal principal = StaticWebAppsAuth.GetClaimsPrincipal(req,log);              
+  
                 if (principal == null)
                 {
-                    log.LogWarning("No principal.");
+                    log.LogTrace("No principal.");
                     return HttpStatusCode.Unauthorized;
                 }
 
                 if(!principal.IsInRole("admin"))
                 {
-                    log.LogInformation("Not an admin");
-                    return HttpStatusCode.Unauthorized;
-                    
+                    log.LogInformation("Not IsInRole admin");
+                    var claims = new List<Claim>( principal.FindAll(ClaimTypes.Role));
+                    foreach(var c in claims){
+                        if(c.Value == "admin")
+                            return HttpStatusCode.Continue;
+                    }
+                    log.LogInformation("No claim with value admin");
+                    return HttpStatusCode.Unauthorized; 
                 }
+
                 return HttpStatusCode.Continue;
             }
             catch (Exception ex)

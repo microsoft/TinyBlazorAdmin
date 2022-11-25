@@ -5,6 +5,7 @@
 @using Syncfusion.Blazor.Inputs
 @using Cloud5mins.AzShortener
 @using System.Net
+@using System.Text.Json
 @inject HttpClient Http
 @inject IJSRuntime JSRuntime
 @inject NavigationManager NavigationManager
@@ -196,6 +197,10 @@ else
 
     protected override async Task OnInitializedAsync()
     {
+        var info = await GetUserInfo();
+        if(info != null || info.clientPrincipal != null || !info.clientPrincipal.UserRoles.Contains("admin")){
+            NavigationManager.NavigateTo("/unauthorized");
+        }
         await RefreshGrid();
     }
 
@@ -203,10 +208,10 @@ else
     {
         try
         {
-            //urls = await Http.GetFromJsonAsync<ListResponse>("/api/UrlList") ?? new ListResponse();
             using var response = await Http.GetAsync("/api/UrlList");
-            if(response.IsSuccessStatusCode)
-                urls = await response.Content.ReadFromJsonAsync<ListResponse>() ?? new ListResponse();
+            if(response.IsSuccessStatusCode){
+                urls = await response.Content.ReadFromJsonAsync<ListResponse>();    
+            }
             else{
                 switch (response.StatusCode)
                 {
@@ -288,4 +293,25 @@ else
         await UpdateUIList();
     }
 
+
+    private async Task<UserInfo> GetUserInfo(){
+        using HttpResponseMessage response = await Http.GetAsync("/.auth/me");
+        string jsonString = await response.Content.ReadAsStringAsync();
+        if(jsonString == @"{""clientPrincipal"":null}")
+            return new UserInfo();
+        var userInfo = JsonSerializer.Deserialize<UserInfo>(jsonString, new JsonSerializerOptions {PropertyNameCaseInsensitive = true}); 
+        return userInfo;
+    }
+
+    private class ClientPrincipal
+    {
+        public string IdentityProvider { get; set; }
+        public string UserId { get; set; }
+        public string UserDetails { get; set; }
+        public IEnumerable<string> UserRoles { get; set; }
+    }
+
+    private class UserInfo{
+        public ClientPrincipal clientPrincipal { get; set; }
+    }
 }

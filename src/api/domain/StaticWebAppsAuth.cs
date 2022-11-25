@@ -23,15 +23,10 @@ namespace Cloud5mins.domain
         public static ClaimsPrincipal GetClaimsPrincipal(HttpRequestData req, ILogger log)
         {
             var principal = new ClientPrincipal();
-            
-            foreach(var h in req.Headers){
-                log.LogWarning($"===> header: {h.Key} --> {h.Value}");
-            }
 
             if (req.Headers.TryGetValues("x-ms-client-principal", out var header))
             {
                 var data = header.First<string>();
-                log.LogWarning($"===> data: {data}");
                 var decoded = Convert.FromBase64String(data);
                 var json = Encoding.UTF8.GetString(decoded);
                 log.LogWarning($"===> json: {json}");
