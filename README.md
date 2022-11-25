@@ -5,7 +5,7 @@
 
  Admin tools for [Azure Url Shortener](https://github.com/FBoucher/AzUrlShortener) using [Blazor Single Page Application (webassembly)](https://azure.microsoft.com/services/app-service/static/?WT.mc_id=dotnet-0000-frbouche).
 
-The project is now at version 1 and ready to be used! ~~just getting started but should have a v1 ready in Summer 2020~~. It is using Azure Active Directory (AAD) as authentication for the user and to connect to the API (Azure Function).
+The project is now at version 3 and ready to be used! It is using Azure Static Web App native security and the API is an Azure Function.
 
 ![Tiny Blazor Admin home page][tinyBA_home]
 
