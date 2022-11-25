@@ -59,23 +59,18 @@ namespace Cloud5mins.Function
         [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = null)] HttpRequestData req,
         ExecutionContext context)
         {
-            _logger.LogInformation($"C# HTTP trigger function processed this request: {req}");
+            _logger.LogInformation($"HTTP trigger - UrlArchive");
 
             string userId = string.Empty;
             ShortUrlEntity input;
             ShortUrlEntity result;
             try
             {
-                // var invalidRequest = Utility.CatchUnauthorize(principal, log);
-                // if (invalidRequest != null)
-                // {
-                //     return invalidRequest;
-                // }
-                // else
-                // {
-                //     userId = principal.FindFirst(ClaimTypes.GivenName).Value;
-                //     _logger.LogInformation("Authenticated user {user}.", userId);
-                // }
+                var invalidCode = ClaimsUtility.CatchUnauthorize(req, _logger);
+                if (invalidCode != HttpStatusCode.Continue)
+                {
+                    return req.CreateResponse(invalidCode);
+                }
 
                 // Validation of the inputs
                 if (req == null)

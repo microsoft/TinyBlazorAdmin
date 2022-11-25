@@ -5,7 +5,7 @@
     "routes": [
         {
           "route": "/urlmanager*",
-          "allowedRoles": ["authenticated"]
+          "allowedRoles": ["admin"]
         },
         {
           "route": "/statistics*",
@@ -14,7 +14,7 @@
         {
           "route": "/api/*",
           "methods": ["GET", "POST"],
-          "allowedRoles": ["authenticated"]
+          "allowedRoles": ["admin"]
         },
         {
           "route": "/login",

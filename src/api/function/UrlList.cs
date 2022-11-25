@@ -54,17 +54,15 @@ namespace Cloud5mins.Function
 
             try
             {
-                // var invalidCode = ClaimsUtility.CatchUnauthorize(req, _logger);
-                // if (invalidCode != HttpStatusCode.Continue)
-                // {
-                //     return req.CreateResponse(invalidCode);
-                //     // return new UnauthorizedResult();
-                // }
+                var invalidCode = ClaimsUtility.CatchUnauthorize(req, _logger);
+                if (invalidCode != HttpStatusCode.Continue)
+                {
+                    return req.CreateResponse(invalidCode);
+                }
 
                 result.UrlList = await stgHelper.GetAllShortUrlEntities();
                 result.UrlList = result.UrlList.Where(p => !(p.IsArchived ?? false)).ToList();
                 var host = string.IsNullOrEmpty(_adminApiSettings.customDomain) ? req.Url.Host: _adminApiSettings.customDomain;
-                // var host = string.IsNullOrEmpty(_adminApiSettings.customDomain) ? req.Host.Host: _adminApiSettings.customDomain;
                 foreach (ShortUrlEntity url in result.UrlList)
                 {
                     url.ShortUrl = Utility.GetShortUrl(host, url.RowKey);
@@ -76,17 +74,11 @@ namespace Cloud5mins.Function
                 var badres = req.CreateResponse(HttpStatusCode.BadRequest);
                 await badres.WriteAsJsonAsync(new {Message = ex.Message });
                 return badres;
-                // return new BadRequestObjectResult(new
-                // {
-                //     message = ex.Message,
-                //     StatusCode =  HttpStatusCode.BadRequest
-                // });
             }
 
             var response = req.CreateResponse(HttpStatusCode.OK);
             await response.WriteAsJsonAsync(result);
             return response;
-            // return new OkObjectResult(result);
         }
     }
 }

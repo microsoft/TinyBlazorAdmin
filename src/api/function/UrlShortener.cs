@@ -26,10 +26,6 @@ using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
 using System.Net;
-// using Microsoft.Extensions.Configuration;
-// using System.Security.Claims;
-// using Microsoft.AspNetCore.Mvc;
-// using Microsoft.AspNetCore.Http;
 using System.IO;
 using System.Text.Json;
 using System.Threading;
@@ -64,17 +60,11 @@ namespace Cloud5mins.Function
 
             try
             {
-                // var invalidRequest = Utility.CatchUnauthorize(principal, log);
-
-                // if (invalidRequest != null)
-                // {
-                //     return invalidRequest;
-                // }
-                // else
-                // {
-                //     userId = principal.FindFirst(ClaimTypes.GivenName).Value;
-                //     _logger.LogInformation("Authenticated user {user}.", userId);
-                // }
+                var invalidCode = ClaimsUtility.CatchUnauthorize(req, _logger);
+                if (invalidCode != HttpStatusCode.Continue)
+                {
+                    return req.CreateResponse(invalidCode);
+                }
 
                 // Validation of the inputs
                 if (req == null)

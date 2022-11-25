@@ -60,14 +60,13 @@ namespace Cloud5mins.Function
             _adminApiSettings = settings;
         }
 
-
         [Function("UrlUpdate")]
         public async Task<HttpResponseData> Run(
         [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = null)] HttpRequestData req,
                                     ExecutionContext context
                                 )
         {
-            _logger.LogInformation($"C# HTTP trigger function processed this request: {req}");
+            _logger.LogInformation($"HTTP trigger - UrlUpdate");
 
             string userId = string.Empty;
             ShortUrlEntity input;
@@ -75,17 +74,11 @@ namespace Cloud5mins.Function
 
             try
             {
-                // var invalidRequest = Utility.CatchUnauthorize(principal, _logger);
-
-                // if (invalidRequest != null)
-                // {
-                //     return invalidRequest;
-                // }
-                // else
-                // {
-                //     userId = principal.FindFirst(ClaimTypes.GivenName).Value;
-                //     _logger.LogInformation("Authenticated user {user}.", userId);
-                // }
+                var invalidCode = ClaimsUtility.CatchUnauthorize(req, _logger);
+                if (invalidCode != HttpStatusCode.Continue)
+                {
+                    return req.CreateResponse(invalidCode);
+                }
 
                 // Validation of the inputs
                 if (req == null)
@@ -118,12 +111,6 @@ namespace Cloud5mins.Function
                     await badRequest.WriteAsJsonAsync(new  { Message = $"{input.Url} is not a valid absolute Url. The Url parameter must start with 'http://' or 'http://'."} );    
                     return badRequest;   
                 }
-
-                // var config = new ConfigurationBuilder()
-                //     .SetBasePath(context.FunctionAppDirectory)
-                //     .AddJsonFile("local.settings.json", optional: true, reloadOnChange: true)
-                //     .AddEnvironmentVariables()
-                //     .Build();
 
                 StorageTableHelper stgHelper = new StorageTableHelper(_adminApiSettings.UlsDataStorage);
 
