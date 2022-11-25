@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TinyBlazorAdmin", "TinyBlazorAdmin\TinyBlazorAdmin.csproj", "{2190B73D-DF38-45D8-88C1-6CDF49E68D68}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TinyBlazorAdmin", "client\TinyBlazorAdmin.csproj", "{2190B73D-DF38-45D8-88C1-6CDF49E68D68}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdminApi", "AdminApi\AdminApi.csproj", "{3663F7F4-2064-423E-9928-3F1D25E3F2D7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdminApi", "api\AdminApi.csproj", "{3663F7F4-2064-423E-9928-3F1D25E3F2D7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "azShortenerLib", "azShortenerLib\azShortenerLib.csproj", "{3E0E3C70-A56F-4565-ADE2-E3E585D1CBFD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "azShortenerLib", "lib\azShortenerLib.csproj", "{3E0E3C70-A56F-4565-ADE2-E3E585D1CBFD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
