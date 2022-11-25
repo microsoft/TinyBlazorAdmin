@@ -1,13 +1,23 @@
 # Deployment
 
-Until a "full automatic" deployment is created, here are all the steps to deploy the TinyBlazorAdmin app into Azure. You can run it somewhere else and even locally.
-
 ## First thing first
 
-You need to **fork this repo** into your own account. You will need to update the configuration (this document will explain when and what), therefore it needs to be yours.
+### 👉 **Copy this repository** into your own account
 
-To fork a GitHub repository click on the fork button on the top right of the screen. If you need more detail have a look to this GitHub doc: [Fork a repo
-](https://docs.github.com/en/free-pro-team@latest/github/getting-started-with-github/fork-a-repo).
+> To Copy a GitHub repository click on the use this template button on the top right of the screen.
+
+![Click on the button Use this template][CreateACopy]
+
+Provide a name. It can be anything, it just need to be unique in your account (you can keep TinyBlazorAdmin if you want). Add a description it you want, and click the button **Create repository from template**. 
+
+![Give it a name description and click Create][NameYourCopy]
+
+After a few seconds, you should now be in your version of the TinyBlazorAdmin project. If you need more detail have a look to this GitHub doc: [Fork a repo](https://docs.github.com/en/free-pro-team@latest/github/getting-started-with-github/fork-a-repo).
+
+> Make sure you are currently in YOUR GitHub repository.
+>
+>![This should be YOUR repo][NotFBoucherRepo]
+
 
 ## Deploy AzUrlShortener (the Backend)
 
@@ -35,9 +45,9 @@ Once it's all filled, click the Review, and create button. It will takes a few m
 
 ## Create Invite to add users to the Admin role
 
-Users need to be part of the of the role **admin** (all lower case). To add them you need to use the *Role management* interface from in the Azure portal.
+Users need to be part of the of the role **admin** (all lowercase). To add them you need to use the *Role management* interface from in the Azure portal.
 
-From the [portal](https://portal.azure.com/), open your static web app and select the *Role management* from the left options list. From there click the Invive button make sure you type **admin** all lower case without extra spaces in the Role field.
+From the [portal](https://portal.azure.com/), open your static web app and select the *Role management* from the left options list. From there click the Invive button make sure you type **admin** all lowercase without extra spaces in the Role field.
 
 ![Create invire][create_invire]
 
@@ -64,3 +74,6 @@ Voila, the deployment is now completed. You can test it by creating a new short 
 [create_invire]: medias/create_invite.png
 [add_config]: medias/add_config.png
 [grab_connstring]: medias/grab_connstring.png
+[NotFBoucherRepo]: medias/NotFBoucherRepo.png
+[CreateACopy]: medias/CreateACopy.png
+[NameYourCopy]: medias/NameYourCopy.png
