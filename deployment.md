@@ -23,7 +23,7 @@ After a few seconds, you should now be in your version of the TinyBlazorAdmin pr
 
 This project is a frontend for [Azure Url Shortener](https://github.com/FBoucher/AzUrlShortener). If it's not already done you will need to deploy this project in your Azure subscription. 
 
-## Deploy TinyBlazorAdmin (the Frontend)
+## Deploy TinyBlazorAdmin
 
 There are many ways you could run Tiny Blazor Admin website. In this deployment, we will use the new [Azure Static Web App (SWA)](https://azure.microsoft.com/en-ca/services/app-service/static/?WT.mc_id=tinyblazoradmin-github-frbouche). 
 

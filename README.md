@@ -44,16 +44,17 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- markdownlint-disable -->
 <table>
   <tr>
-    <td align="center"><a href="http://cloud5mins.com"><img src="https://avatars3.githubusercontent.com/u/2404846?v=4" width="100px;" alt=""/><br /><sub><b>Frank Boucher</b></sub></a><br /><a href="https://github.com/FBoucher/TinyBlazorAdmin/commits?author=FBoucher" title="Documentation">📖</a> <a href="https://github.com/FBoucher/TinyBlazorAdmin/commits?author=FBoucher" title="Code">💻</a> <a href="#ideas-FBoucher" title="Ideas, Planning, & Feedback">🤔</a></td>
-    <td align="center"><a href="http://www.mayoclinic.org"><img src="https://avatars3.githubusercontent.com/u/765798?v=4" width="100px;" alt=""/><br /><sub><b>jbrule</b></sub></a><br /><a href="https://github.com/FBoucher/TinyBlazorAdmin/commits?author=jbrule" title="Documentation">📖</a></td>
-    <td align="center"><a href="https://cmatskas.com"><img src="https://avatars3.githubusercontent.com/u/4126750?v=4" width="100px;" alt=""/><br /><sub><b>Christos Matskas</b></sub></a><br /><a href="#security-cmatskas" title="Security">🛡️</a> <a href="https://github.com/FBoucher/TinyBlazorAdmin/issues?q=author%3Acmatskas" title="Bug reports">🐛</a></td>
-    <td align="center"><a href="https://github.com/ronhowe"><img src="https://avatars1.githubusercontent.com/u/5210043?v=4" width="100px;" alt=""/><br /><sub><b>Ron Howe</b></sub></a><br /><a href="https://github.com/FBoucher/TinyBlazorAdmin/commits?author=ronhowe" title="Documentation">📖</a></td>
-    <td align="center"><a href="https://github.com/Mark-Phillipson"><img src="https://avatars0.githubusercontent.com/u/16239024?v=4" width="100px;" alt=""/><br /><sub><b>Mark Phillipson</b></sub></a><br /><a href="https://github.com/FBoucher/TinyBlazorAdmin/commits?author=Mark-Phillipson" title="Documentation">📖</a></td>
+    <td align="center"><a href="http://cloud5mins.com"><img src="https://avatars3.githubusercontent.com/u/2404846?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Frank Boucher</b></sub></a><br /><a href="https://github.com/FBoucher/TinyBlazorAdmin/commits?author=FBoucher" title="Documentation">📖</a> <a href="https://github.com/FBoucher/TinyBlazorAdmin/commits?author=FBoucher" title="Code">💻</a> <a href="#ideas-FBoucher" title="Ideas, Planning, & Feedback">🤔</a></td>
+    <td align="center"><a href="http://www.mayoclinic.org"><img src="https://avatars3.githubusercontent.com/u/765798?v=4?s=100" width="100px;" alt=""/><br /><sub><b>jbrule</b></sub></a><br /><a href="https://github.com/FBoucher/TinyBlazorAdmin/commits?author=jbrule" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://cmatskas.com"><img src="https://avatars3.githubusercontent.com/u/4126750?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Christos Matskas</b></sub></a><br /><a href="#security-cmatskas" title="Security">🛡️</a> <a href="https://github.com/FBoucher/TinyBlazorAdmin/issues?q=author%3Acmatskas" title="Bug reports">🐛</a></td>
+    <td align="center"><a href="https://github.com/ronhowe"><img src="https://avatars1.githubusercontent.com/u/5210043?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Ron Howe</b></sub></a><br /><a href="https://github.com/FBoucher/TinyBlazorAdmin/commits?author=ronhowe" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/Mark-Phillipson"><img src="https://avatars0.githubusercontent.com/u/16239024?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Mark Phillipson</b></sub></a><br /><a href="https://github.com/FBoucher/TinyBlazorAdmin/commits?author=Mark-Phillipson" title="Documentation">📖</a> <a href="https://github.com/FBoucher/TinyBlazorAdmin/commits?author=Mark-Phillipson" title="Code">💻</a> <a href="https://github.com/FBoucher/TinyBlazorAdmin/pulls?q=is%3Apr+reviewed-by%3AMark-Phillipson" title="Reviewed Pull Requests">👀</a></td>
   </tr>
 </table>
 
-<!-- markdownlint-enable -->
+<!-- markdownlint-restore -->
 <!-- prettier-ignore-end -->
+
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
