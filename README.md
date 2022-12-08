@@ -16,18 +16,15 @@ Once authenticated you can manage your URLs and see some statistics. Thanks to [
 ![Tiny Blazor Admin Statistics page][inyBA_stats]
 
 
-
 # Deployment
 
-Until an automatic deployment is created, you will need to deploy some part manually. [All the steps to deploy the TinyBlazorAdmin app into Azure are listed here](deployment.md). You can also run it somewhere else if you prefer, even locally.
-
-
+Until an automatic deployment is created, you will need to deploy some part manually. [All the steps to deploy the TinyBlazorAdmin app into Azure are listed here](https://github.com/FBoucher/TinyBlazorAdmin/wiki/Deployment). You can also run it somewhere else if you prefer, even locally.
 
 # Contributing
 
 If you find a bug or would like to add a feature, check out those resources:
 
-To see the current work in progress: [GLO boards](https://app.gitkraken.com/glo/board/XtpDU2ZLuQARV8y7) 'kanban board'
+To see the current work in progress on the [kanban board](https://github.com/users/FBoucher/projects/7) 
 
 
 [TinyBlazorAdmin]: medias/TinyBlazorAdmin.png
