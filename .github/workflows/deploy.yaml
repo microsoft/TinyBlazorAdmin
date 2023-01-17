@@ -3,7 +3,6 @@ name: Deploy web app to Azure Static Web Apps
 env:
   APP_LOCATION: "src/client"
   API_LOCATION: "src/api"
-  APP_ARTIFACT_LOCATION: "build"
 
 on:
   push:
@@ -30,4 +29,3 @@ jobs:
           action: "upload"
           app_location: ${{ env.APP_LOCATION }}
           api_location: ${{ env.API_LOCATION }}
-          app_artifact_location: ${{ env.APP_ARTIFACT_LOCATION }}
