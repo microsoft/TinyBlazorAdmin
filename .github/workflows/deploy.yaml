@@ -3,7 +3,7 @@ name: Deploy web app to Azure Static Web Apps
 env:
   APP_LOCATION: "src/client"
   API_LOCATION: "src/api"
-  APP_ARTIFACT_LOCATION: "bin/"
+  APP_ARTIFACT_LOCATION: "wwwroot"
 
 on:
   push:
