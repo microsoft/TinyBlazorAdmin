@@ -56,7 +56,7 @@ namespace Cloud5mins.Function
 
         public UrlUpdate(ILoggerFactory loggerFactory, AdminApiSettings settings)
         {
-            _logger = loggerFactory.CreateLogger<UrlList>();
+            _logger = loggerFactory.CreateLogger<UrlUpdate>();
             _adminApiSettings = settings;
         }
 

@@ -43,7 +43,7 @@ namespace Cloud5mins.Function
 
         public UrlShortener(ILoggerFactory loggerFactory, AdminApiSettings settings)
         {
-            _logger = loggerFactory.CreateLogger<UrlList>();
+            _logger = loggerFactory.CreateLogger<UrlShortener>();
             _adminApiSettings = settings;
         }
 
