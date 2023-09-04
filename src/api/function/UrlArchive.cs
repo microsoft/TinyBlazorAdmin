@@ -50,7 +50,7 @@ namespace Cloud5mins.Function
 
         public UrlArchive(ILoggerFactory loggerFactory, AdminApiSettings settings)
         {
-            _logger = loggerFactory.CreateLogger<UrlList>();
+            _logger = loggerFactory.CreateLogger<UrlArchive>();
             _adminApiSettings = settings;
         }
 
